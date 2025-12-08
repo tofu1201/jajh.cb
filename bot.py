@@ -274,4 +274,4 @@ async def send_countdown(ctx):
     message = await ctx.send(embed=embed)
     await ctx.send(f"✅ 倒數訊息已發送，請儲存這個 MESSAGE_ID: `{message.id}`")
         
-bot.run("MTM2MzM2MzU2NjQ4NDMyNDQxMw.GB7gHE.s7N-bwTf_9HS-WHLSLwU83D0xKqe0QOfJJ-YlY")
+bot.run("")
