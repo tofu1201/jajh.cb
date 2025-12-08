@@ -1,0 +1,44 @@
+# 環境變數
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# 資料檔案（敏感）
+data/*.json
+!data/.gitkeep
+
+# 日誌
+logs/*.log
+logs/*.json
+!logs/.gitkeep
+
+# 備份
+data/backups/*
+!data/backups/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# 測試
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 虛擬環境
+venv/
+env/
+ENV/

@@ -1,0 +1,2881 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服務條款｜匿名仁愛</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="shortcut icon" href="/static/favicon.svg">
+    <meta name="theme-color" content="#4f46e5">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --darker: #111827;
+            --light: #f9fafb;
+            --card-bg: #1e293b;
+            --input-bg: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border-color: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background-color: var(--darker);
+        }
+
+        body {
+            min-height: 100vh;
+            position: relative;
+            background:
+                radial-gradient(circle at 12% 18%, rgba(59, 130, 246, 0.08), transparent 48%),
+                radial-gradient(circle at 82% 78%, rgba(76, 29, 149, 0.1), transparent 52%),
+                linear-gradient(178deg, #02040a 0%, #050914 42%, #080f1d 70%, #0d1526 100%);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        body::before {
+            background: radial-gradient(circle at 30% 25%, rgba(99, 102, 241, 0.08), transparent 55%),
+                radial-gradient(circle at 70% 65%, rgba(8, 145, 178, 0.07), transparent 58%);
+            filter: blur(0px);
+            opacity: 0.38;
+            animation: auroraShift 26s ease-in-out infinite alternate;
+            z-index: -2;
+        }
+
+        body::after {
+            background-image:
+                linear-gradient(0deg, rgba(2, 6, 14, 0.5) 0%, rgba(2, 6, 14, 0) 70%),
+                radial-gradient(rgba(148, 163, 184, 0.018) 1px, transparent 1px);
+            background-size: 100% 100%, 4px 4px;
+            mix-blend-mode: overlay;
+            opacity: 0.18;
+            z-index: -3;
+        }
+
+        @keyframes auroraShift {
+            0% {
+                transform: translate3d(-2%, -1%, 0) scale(1.02);
+                filter: hue-rotate(0deg);
+            }
+
+            50% {
+                transform: translate3d(1%, 1%, 0) scale(1.04);
+                filter: hue-rotate(6deg);
+            }
+
+            100% {
+                transform: translate3d(2%, -1%, 0) scale(1.01);
+                filter: hue-rotate(-4deg);
+            }
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .site-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            font-size: clamp(1.3rem, 2vw, 1.6rem);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            line-height: 1;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .site-brand-icon {
+            width: 2rem;
+            height: 2rem;
+            padding: 0.15rem;
+            display: block;
+            border-radius: 0.6rem;
+            object-fit: cover;
+            flex-shrink: 0;
+            box-sizing: border-box;
+            filter: drop-shadow(0 0 6px rgba(99, 102, 241, 0.55));
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        /* ====== 統一按鈕系統 ====== */
+        /* 基本按鈕類 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 2.75rem;
+            font-size: 0.95rem;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid rgba(165, 180, 252, 0.55);
+            outline-offset: 2px;
+        }
+
+        /* 主按鈕 - 用於主要操作 */
+        .btn-primary,
+        .btn.btn-primary {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.95) 0%, rgba(139, 92, 246, 0.95) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover,
+        .btn.btn-primary:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.85) 0%, rgba(139, 92, 246, 0.85) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* 次按鈕 - 用於輔助操作 */
+        .btn-secondary,
+        .btn.btn-secondary {
+            background: rgba(99, 102, 241, 0.1);
+            color: #a5b4fc;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary:hover,
+        .btn.btn-secondary:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.5);
+            color: white;
+        }
+
+        /* 危險按鈕 - 用於刪除/登出 */
+        .btn-danger,
+        .btn.btn-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border: 1px solid rgba(248, 113, 113, 0.35);
+        }
+
+        .btn-danger:hover,
+        .btn.btn-danger:hover {
+            background: rgba(239, 68, 68, 0.3);
+            color: #fecaca;
+            border-color: rgba(248, 113, 113, 0.55);
+        }
+
+        /* 禁用狀態 */
+        .btn:disabled,
+        .btn[disabled] {
+            cursor: not-allowed;
+            opacity: 0.5;
+            transform: none !important;
+        }
+
+        /* 小型按鈕 */
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            min-height: 2.25rem;
+        }
+
+        /* 完全寬度按鈕 */
+        .btn-block {
+            width: 100%;
+        }
+
+        .input-error {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            margin-top: 0.75rem;
+            padding: 0.8rem 1rem;
+            border-radius: 0.75rem;
+            background: rgba(248, 113, 113, 0.15);
+            border: 1px solid rgba(248, 113, 113, 0.35);
+            color: #fca5a5;
+            font-size: 0.9rem;
+        }
+
+        .input-error span:last-child {
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        .input-error strong {
+            color: #f87171;
+        }
+
+        .input-error-icon {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        .input-success {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+            padding: 0.85rem 1rem;
+            border-radius: 0.75rem;
+            background: rgba(16, 185, 129, 0.14);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            color: #6ee7b7;
+            font-size: 0.9rem;
+        }
+
+        .input-success strong {
+            color: #34d399;
+        }
+
+        .input-success-icon {
+            flex-shrink: 0;
+            font-size: 1rem;
+            margin-top: 0.15rem;
+        }
+
+        .textarea-auto {
+            overflow-y: hidden;
+            transition: height 0.15s ease;
+            min-height: 9rem;
+            max-height: 18rem;
+        }
+
+        .btn-search {
+            background-color: rgba(99, 102, 241, 0.9);
+            color: white;
+            padding: 0.75rem 1.6rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s ease;
+            box-shadow: none;
+            min-height: 3rem;
+            min-width: 3rem;
+        }
+
+        .btn-search:hover {
+            background-color: rgba(79, 70, 229, 0.92);
+        }
+
+        .btn-search:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35);
+        }
+
+        .btn-search .btn-icon {
+            font-size: 0.95rem;
+        }
+
+        .btn-search .btn-label {
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+        }
+
+        .btn-apply {
+            position: relative;
+            overflow: hidden;
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.5rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.95) 0%, rgba(139, 92, 246, 0.95) 100%);
+            box-shadow: none;
+            gap: 0.5rem;
+            transition: background-color 0.2s ease;
+            font-weight: 600;
+            min-height: 2.75rem;
+        }
+
+        .btn-apply:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.82) 0%, rgba(139, 92, 246, 0.82) 100%);
+        }
+
+        .btn-apply:focus-visible {
+            outline: 2px solid rgba(255, 255, 255, 0.35);
+            outline-offset: 2px;
+            box-shadow: none;
+        }
+
+        .btn-apply .btn-icon,
+        .btn-apply .btn-label,
+        .btn-apply .spinner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-apply .btn-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            transition: transform 0.12s ease, opacity 0.12s ease;
+        }
+
+        .btn-apply .btn-label {
+            font-size: 0.92rem;
+            font-weight: 600;
+            transition: transform 0.12s ease, opacity 0.12s ease;
+        }
+
+        .btn-apply .spinner {
+            display: none;
+            width: 0.9rem;
+            height: 0.9rem;
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.45s linear infinite;
+        }
+
+        .btn-apply.is-loading .spinner {
+            display: inline-flex;
+        }
+
+        .btn-apply.is-loading .btn-icon,
+        .btn-apply.is-loading .btn-label {
+            opacity: 0;
+            transform: translateY(3px);
+        }
+
+        .btn-apply[disabled] {
+            cursor: not-allowed;
+            filter: grayscale(0.35) brightness(0.85);
+            box-shadow: none;
+            background: linear-gradient(135deg, rgba(71, 85, 105, 0.75) 0%, rgba(51, 65, 85, 0.75) 100%);
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            min-height: 3rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            line-height: 1.2;
+        }
+
+        .status-cell {
+            white-space: nowrap;
+            vertical-align: top;
+            padding-top: 1.25rem;
+            min-width: 6.25rem;
+        }
+
+        .status-pending {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+        }
+
+        .status-approved {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .status-rejected {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            z-index: 50;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification-success {
+            background-color: var(--success);
+        }
+
+        .notification-error {
+            background-color: var(--danger);
+        }
+
+        .notification-info {
+            background-color: var(--primary);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .fas-sync-alt {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: rgba(30, 41, 59, 0.5);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        tr:hover {
+            background-color: rgba(30, 41, 59, 0.3);
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s ease;
+            color: var(--text-secondary);
+        }
+
+        .action-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn.approve:hover {
+            color: var(--success);
+        }
+
+        .action-btn.reject:hover {
+            color: var(--danger);
+        }
+
+        .nav-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .hamburger {
+            position: relative;
+            z-index: 55;
+            display: none;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            border: none;
+            background: rgba(99, 102, 241, 0.15);
+            transition: all 0.25s ease;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 0.35rem;
+            padding: 0.35rem;
+        }
+
+        .hamburger:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.4);
+            background: rgba(99, 102, 241, 0.25);
+        }
+
+        .hamburger:hover {
+            background: rgba(99, 102, 241, 0.25);
+            transform: scale(1.05);
+        }
+
+        .hamburger span {
+            width: 1.4rem;
+            height: 0.18rem;
+            border-radius: 999px;
+            background: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hamburger span:nth-child(1) {
+            transform: translateY(0);
+        }
+
+        .hamburger span:nth-child(2) {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        .hamburger span:nth-child(3) {
+            transform: translateY(0);
+        }
+
+        .hamburger.is-active span:nth-child(1) {
+            transform: translateY(0.43rem) rotate(45deg);
+        }
+
+        .hamburger.is-active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .hamburger.is-active span:nth-child(3) {
+            transform: translateY(-0.43rem) rotate(-45deg);
+        }
+
+        .close-menu {
+            position: relative;
+            z-index: 55;
+            display: none;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            background: rgba(99, 102, 241, 0.15);
+            color: white;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .close-menu:hover {
+            background: rgba(99, 102, 241, 0.25);
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .close-menu:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.4);
+            background: rgba(99, 102, 241, 0.25);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-menu-header,
+        .nav-menu-footer {
+            display: none;
+        }
+
+        .nav-menu-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.045em;
+            color: white;
+        }
+
+        .nav-menu-brand-icon {
+            width: 1.8rem;
+            height: 1.8rem;
+            padding: 0.12rem;
+            display: block;
+            box-sizing: border-box;
+        }
+
+        .nav-menu-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu-link {
+            position: relative;
+            padding: 0.35rem 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-menu-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -0.35rem;
+            height: 2px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.45);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.25s ease;
+        }
+
+        .nav-menu-link:focus-visible::after,
+        .nav-menu-link:hover::after,
+        .nav-menu-link.is-active::after {
+            transform: scaleX(1);
+        }
+
+        .nav-menu-link:focus-visible {
+            outline: 2px solid rgba(165, 180, 252, 0.55);
+            outline-offset: 4px;
+        }
+
+        .nav-menu-link.is-active {
+            color: rgb(199, 210, 254);
+        }
+
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.75);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 35;
+        }
+
+        .nav-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+            gap: 0.25rem;
+        }
+
+        .pagination a,
+        .pagination span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .pagination a {
+            background-color: var(--input-bg);
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .pagination a:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .pagination .active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .pagination .disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .dashboard-header {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* 改進的儀表板頭部 */
+        .dashboard-header-improved {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.03) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            border-radius: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .dashboard-title-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .dashboard-title-section h1 {
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .dashboard-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .dashboard-controls .btn {
+            min-width: auto;
+            padding: 0.65rem 1rem;
+        }
+
+        .dashboard-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .dashboard-logout-link {
+            display: none;
+            color: #fca5a5;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .dashboard-logout-link:hover,
+        .dashboard-logout-link:focus-visible {
+            color: #fecaca;
+        }
+
+        .dashboard-logout-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.6rem 0.9rem;
+            background: rgba(239, 68, 68, 0.2);
+            border-radius: 0.5rem;
+            color: #fca5a5;
+            font-weight: 600;
+            border: 1px solid rgba(248, 113, 113, 0.35);
+            align-self: flex-start;
+            min-width: 3rem;
+            min-height: 2.75rem;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .dashboard-logout-button:hover,
+        .dashboard-logout-button:focus-visible {
+            background: rgba(239, 68, 68, 0.3);
+            color: #fecaca;
+            border-color: rgba(248, 113, 113, 0.55);
+        }
+
+        .filter-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            background-color: var(--input-bg);
+            color: var(--text-secondary);
+            opacity: 0.75;
+            min-height: 2.75rem;
+            min-width: 3rem;
+            line-height: 1.2;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 640px) {
+            .filter-btn {
+                padding: 0.5rem 0.75rem;
+                min-height: 2.5rem;
+                min-width: auto;
+                font-size: 0.75rem;
+                flex: 1;
+            }
+        }
+
+        .filter-btn:hover {
+            opacity: 0.9;
+        }
+
+        .filter-btn.is-active {
+            opacity: 1;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08);
+        }
+
+        .filter-all.is-active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .filter-pending.is-active {
+            background-color: rgba(245, 158, 11, 0.25);
+            color: #fbbf24;
+        }
+
+        .filter-approved.is-active {
+            background-color: rgba(16, 185, 129, 0.25);
+            color: #34d399;
+        }
+
+        .filter-rejected.is-active {
+            background-color: rgba(239, 68, 68, 0.25);
+            color: #f87171;
+        }
+
+        .checkbox-modern {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+            user-select: none;
+        }
+
+        .checkbox-modern .checkbox-input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .checkbox-modern .checkbox-box {
+            width: 1.15rem;
+            height: 1.15rem;
+            border-radius: 0.35rem;
+            border: 2px solid rgba(148, 163, 184, 0.4);
+            background: rgba(30, 41, 59, 0.6);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.35);
+        }
+
+        .checkbox-modern .checkbox-box::after {
+            content: "";
+            width: 0.45rem;
+            height: 0.8rem;
+            border: solid white;
+            border-width: 0 0.2rem 0.2rem 0;
+            transform: rotate(45deg) scale(0.4);
+            opacity: 0;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-modern .checkbox-input:checked+.checkbox-box {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.25);
+        }
+
+        .checkbox-modern .checkbox-input:checked+.checkbox-box::after {
+            opacity: 1;
+            transform: rotate(45deg) scale(1);
+        }
+
+        .checkbox-modern .checkbox-input:focus-visible+.checkbox-box {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35);
+        }
+
+        .checkbox-modern .checkbox-text {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        .select-modern {
+            position: relative;
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-radius: 0.5rem;
+            padding: 0.35rem 2.5rem 0.35rem 1rem;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            min-width: 12rem;
+        }
+
+        .select-modern:hover,
+        .select-modern:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .select-modern select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .select-modern::after {
+            content: "\f078";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: 1rem;
+            color: var(--text-secondary);
+            pointer-events: none;
+            transition: transform 0.2s ease;
+        }
+
+        .select-modern:focus-within::after,
+        .select-modern:hover::after {
+            color: white;
+            transform: translateY(1px);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-flex;
+            min-width: 12rem;
+        }
+
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            gap: 0.75rem;
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.45rem 1rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .dropdown-trigger:hover,
+        .dropdown[data-open="true"] .dropdown-trigger,
+        .dropdown-trigger:focus-visible {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            outline: none;
+        }
+
+        .dropdown-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: transform 0.2s ease, color 0.2s ease;
+            pointer-events: none;
+        }
+
+        .dropdown[data-open="true"] .dropdown-icon {
+            transform: rotate(-180deg);
+            color: white;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            min-width: 13rem;
+            background: rgba(17, 24, 39, 0.96);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-radius: 0.75rem;
+            padding: 0.35rem 0;
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.45);
+            z-index: 45;
+            opacity: 0;
+            transform: translateY(-6px);
+            pointer-events: none;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(12px);
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .dropdown-option {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.65rem 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dropdown-option:hover,
+        .dropdown-option:focus {
+            background: rgba(99, 102, 241, 0.18);
+            color: white;
+            outline: none;
+        }
+
+        .dropdown-option.is-active {
+            background: rgba(99, 102, 241, 0.28);
+            color: white;
+        }
+
+        .dropdown-option:focus-visible {
+            outline: none;
+            box-shadow: inset 0 0 0 2px rgba(99, 102, 241, 0.25);
+        }
+
+        .dropdown-separator {
+            height: 1px;
+            background: rgba(148, 163, 184, 0.2);
+            margin: 0.35rem 0;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu-link::after {
+                content: none;
+            }
+
+            .nav-menu-header {
+                justify-content: flex-end;
+            }
+
+            .nav-menu-brand {
+                display: none;
+            }
+
+            .hamburger {
+                display: inline-flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                inset: 0 0 0 auto;
+                width: min(23rem, 85vw);
+                padding: 1.5rem;
+                flex-direction: column;
+                align-items: stretch;
+                justify-content: flex-start;
+                background: linear-gradient(135deg, rgba(17, 24, 39, 0.99) 0%, rgba(30, 41, 59, 0.97) 50%, rgba(51, 65, 85, 0.95) 100%);
+                box-shadow: -25px 0 50px rgba(0, 0, 0, 0.6);
+                border-radius: 0 1.5rem 1.5rem 0;
+                transform: translateX(110%);
+                transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+                z-index: 45;
+                opacity: 0;
+                max-height: 100vh;
+                overflow-y: auto;
+                overscroll-behavior: contain;
+            }
+
+            .nav-menu.active {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            .nav-menu-header,
+            .nav-menu-footer {
+                display: flex;
+            }
+
+            .nav-menu-header {
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                padding-bottom: 1.25rem;
+                border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+                margin-bottom: 1.25rem;
+            }
+
+            .close-menu {
+                display: inline-flex;
+            }
+
+            .nav-menu-brand {
+                font-size: 1.1rem;
+                letter-spacing: 0.04em;
+                font-weight: 700;
+            }
+
+            .nav-menu-brand-icon {
+                width: 1.5rem;
+                height: 1.5rem;
+                padding: 0.08rem;
+            }
+
+            .nav-menu-links {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.65rem;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+
+            .nav-menu-links li {
+                width: 100%;
+            }
+
+            .nav-menu-link {
+                width: 100%;
+                padding: 0.9rem 1.1rem;
+                font-size: 1rem;
+                font-weight: 500;
+                border-radius: 0.75rem;
+                background: rgba(99, 102, 241, 0.05);
+                border: 1px solid rgba(99, 102, 241, 0.1);
+                color: #cbd5e1;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+
+            .nav-menu-link:hover {
+                background: rgba(99, 102, 241, 0.15);
+                border-color: rgba(99, 102, 241, 0.3);
+                color: white;
+                transform: translateX(4px);
+            }
+
+            .nav-menu-link:focus-visible {
+                outline: 2px solid rgba(165, 180, 252, 0.55);
+                outline-offset: 2px;
+            }
+
+            .nav-menu-link.is-active {
+                background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.15) 100%);
+                border-color: rgba(99, 102, 241, 0.4);
+                color: #e0e7ff;
+                font-weight: 600;
+            }
+
+            .nav-menu-footer {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+                margin-top: auto;
+                padding-top: 1.25rem;
+                border-top: 1px solid rgba(99, 102, 241, 0.2);
+            }
+
+            .nav-menu-footer-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.9rem 1.1rem;
+                font-size: 0.95rem;
+                color: #cbd5e1;
+                text-decoration: none;
+                border-radius: 0.75rem;
+                background: rgba(99, 102, 241, 0.05);
+                border: 1px solid rgba(99, 102, 241, 0.1);
+                transition: all 0.2s ease;
+            }
+
+            .nav-menu-footer-link:hover,
+            .nav-menu-footer-link:focus-visible {
+                background: rgba(99, 102, 241, 0.15);
+                border-color: rgba(99, 102, 241, 0.3);
+                color: white;
+                transform: translateX(4px);
+            }
+
+            .nav-menu-tagline {
+                color: rgba(203, 213, 225, 0.68);
+            }
+
+            .nav-menu::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                border-radius: inherit;
+            }
+
+            th,
+            td {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+
+            .action-btn {
+                padding: 0.25rem;
+            }
+
+            .dashboard-actions {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.75rem;
+            }
+
+            .dashboard-actions .dropdown,
+            .dashboard-actions [data-dropdown-trigger],
+            .dashboard-actions .dropdown-trigger {
+                width: 100%;
+            }
+
+            .dashboard-actions .btn-apply {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .dashboard-meta {
+                width: 100%;
+                margin-top: 1.5rem;
+                padding: 1rem 1.25rem;
+                border-radius: 0.75rem;
+                background: rgba(15, 23, 42, 0.6);
+            }
+
+            .dashboard-table-wrapper {
+                margin: 0 -1rem;
+                padding: 0.25rem 1rem 1.25rem;
+                border-radius: 1rem;
+                background: rgba(15, 23, 42, 0.55);
+                border: 1px solid rgba(148, 163, 184, 0.12);
+            }
+
+            .dashboard-table-wrapper table {
+                min-width: 680px;
+            }
+
+            .dashboard-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .dashboard-filters>div:first-child {
+                flex-wrap: wrap;
+            }
+
+            .dashboard-filters a {
+                flex: 1 1 calc(50% - 0.5rem);
+                text-align: center;
+            }
+
+            .status-cell {
+                min-width: 5.5rem;
+                padding-top: 1rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .post-card {
+                padding: 1.75rem 1.5rem;
+            }
+
+            .post-card h1 {
+                font-size: 1.75rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .post-field-group {
+                margin-bottom: 1.5rem !important;
+            }
+
+            .post-field-header {
+                flex-wrap: wrap;
+                gap: 0.5rem 0.75rem;
+            }
+
+            .post-field-header label {
+                flex: 1 1 auto;
+                font-size: 0.97rem;
+            }
+
+            .post-field-header #content-counter {
+                margin-left: auto;
+            }
+
+            .post-card .form-input {
+                padding: 0.65rem 0.85rem;
+                min-height: 9rem;
+            }
+
+            .post-actions {
+                justify-content: stretch;
+            }
+
+            .post-actions .btn-primary {
+                width: 100%;
+            }
+
+            .post-guidelines-card {
+                padding: 1.5rem 1.25rem;
+            }
+
+            .post-guidelines-card h2 {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding-left: 0.85rem;
+                padding-right: 0.85rem;
+            }
+
+            .site-brand {
+                gap: 0.5rem;
+                font-size: clamp(1.05rem, 6vw, 1.35rem);
+            }
+
+            .site-brand-icon {
+                width: 1.75rem;
+                height: 1.75rem;
+                padding: 0.1rem;
+            }
+
+            .card {
+                border-radius: 0.85rem;
+            }
+
+            .nav-menu {
+                width: min(22rem, 92vw);
+            }
+
+            .nav-menu-link {
+                font-size: 1rem;
+            }
+
+            .dashboard-title {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .dashboard-header-improved {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .dashboard-title-section {
+                width: 100%;
+                flex: none;
+            }
+
+            .dashboard-controls {
+                width: 100%;
+                justify-content: stretch;
+                gap: 0.5rem;
+            }
+
+            .dashboard-controls .btn {
+                flex: 1;
+                min-width: 0;
+                justify-content: center;
+            }
+
+            .dashboard-logout-link {
+                display: none;
+            }
+
+            .dashboard-logout-button {
+                align-self: stretch;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        @media (min-width: 640px) {
+            .dashboard-header {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .dashboard-title {
+                align-items: flex-end;
+            }
+
+            .dashboard-logout-link {
+                align-self: flex-end;
+            }
+
+            .dashboard-logout-button {
+                display: none;
+            }
+
+            .dashboard-logout-link {
+                display: inline-flex;
+                align-items: center;
+            }
+        }
+
+        /* 統計卡片樣式 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(99, 102, 241, 0.4);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.1) 100%);
+        }
+
+        /* 手機版卡片作為分類選擇器 */
+        .stat-card-active {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.2) 100%);
+            border-color: rgba(99, 102, 241, 0.6);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .stat-card-active:hover {
+            transform: translateY(-3px);
+            border-color: rgba(99, 102, 241, 0.8);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.4) 0%, rgba(139, 92, 246, 0.3) 100%);
+        }
+
+        @media (max-width: 768px) {
+            .stat-card {
+                padding: 0.875rem;
+                gap: 0.75rem;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .stat-card:active {
+                transform: scale(0.98);
+            }
+        }
+
+        .stat-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .stat-icon {
+                width: 2.25rem;
+                height: 2.25rem;
+                font-size: 1rem;
+                border-radius: 0.5rem;
+            }
+        }
+
+        .stat-icon.total {
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+        }
+
+        .stat-icon.pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+        }
+
+        .stat-icon.approved {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .stat-icon.rejected {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .stat-label {
+                font-size: 0.65rem;
+                margin-bottom: 0.125rem;
+            }
+
+            .stat-value {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* 快速操作按鈕容器 */
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        /* action-link 已統一為 .btn 系統 */
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.25rem;
+            border-radius: 0.5rem;
+            border: none;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 2.75rem;
+            font-size: 0.95rem;
+        }
+
+        .action-link.primary {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.95) 0%, rgba(139, 92, 246, 0.95) 100%);
+            color: white;
+        }
+
+        .action-link.primary:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.85) 0%, rgba(139, 92, 246, 0.85) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .action-link.secondary {
+            background: rgba(99, 102, 241, 0.1);
+            color: #a5b4fc;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        /* 手機版投稿卡片樣式 */
+        .dashboard-post-card {
+            background: rgba(30, 30, 46, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-post-card:active {
+            background: rgba(30, 30, 46, 0.9);
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+
+        .dashboard-post-card .status-badge {
+            font-size: 0.75rem;
+            padding: 0.375rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .dashboard-post-card .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+            min-height: 2.5rem;
+        }
+
+        .dashboard-post-card .action-btn.approve {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .dashboard-post-card .action-btn.approve:active {
+            background: rgba(16, 185, 129, 0.3);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .dashboard-post-card .action-btn.reject {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .dashboard-post-card .action-btn.reject:active {
+            background: rgba(239, 68, 68, 0.3);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-table-wrapper {
+                overflow: hidden;
+            }
+
+            /* 手機版隱藏不必要的表格元素 */
+            .dashboard-table-wrapper table {
+                display: none;
+            }
+        }
+
+        .action-link.secondary:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.5);
+            color: white;
+        }
+
+        /* 搜索欄 */
+        .search-bar {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .search-bar .form-input {
+            flex: 1;
+            min-height: 2.75rem;
+        }
+
+        .btn-search {
+            background-color: rgba(99, 102, 241, 0.9);
+            color: white;
+            padding: 0.65rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s ease;
+            min-height: 2.75rem;
+            min-width: 2.75rem;
+        }
+
+        .btn-search:hover {
+            background-color: rgba(79, 70, 229, 0.92);
+        }
+
+        /* 手機版優化 */
+        @media (max-width: 640px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+
+            .stat-card {
+                padding: 0.85rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .stat-icon {
+                width: 2.5rem;
+                height: 2.5rem;
+                font-size: 1rem;
+            }
+
+            .stat-label {
+                font-size: 0.75rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .quick-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .action-link {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .action-link span {
+                display: inline;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .btn-search {
+                width: 100%;
+            }
+
+            .btn-search span {
+                display: inline;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav
+        style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 1rem 1.5rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(0, 0, 0, 0.05);">
+        <div
+            style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 0;">
+                <img src="/static/logo.webp" alt="仁愛國中匿名板"
+                    style="height: 32px; width: 32px; object-fit: contain; flex-shrink: 0;">
+                <h2
+                    style="font-size: 1rem; font-weight: 600; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                    匿名仁愛</h2>
+            </div>
+        </div>
+    </nav>
+    <div class="nav-overlay" id="nav-overlay" hidden aria-hidden="true"></div>
+    <div class="container py-8">
+        <script>
+            if (!localStorage.getItem('terms_language')) {
+                localStorage.setItem('terms_language', 'en');
+            }
+
+            function switchLanguage(lang) {
+                localStorage.setItem('terms_language', lang);
+                document.querySelectorAll('[data-lang-en]').forEach(el => {
+                    el.style.display = lang === 'en' ? 'block' : 'none';
+                });
+                document.querySelectorAll('[data-lang-zh]').forEach(el => {
+                    el.style.display = lang === 'zh' ? 'block' : 'none';
+                });
+
+                // 更新按鈕樣式
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    // 非活動按鈕樣式
+                    btn.style.background = 'rgba(255, 255, 255, 0.5)';
+                    btn.style.color = '#666';
+                    btn.style.border = '2px solid #ddd';
+                    btn.style.boxShadow = 'none';
+                });
+
+                // 活動按鈕樣式
+                const activeBtn = document.getElementById('lang-' + lang);
+                activeBtn.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)';
+                activeBtn.style.color = 'white';
+                activeBtn.style.border = 'none';
+                activeBtn.style.boxShadow = '0 2px 8px rgba(255, 107, 107, 0.3)';
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const savedLang = localStorage.getItem('terms_language') || 'en';
+                switchLanguage(savedLang);
+            });
+        </script>
+
+        <div class="min-h-screen bg-gray-50">
+            <div class="bg-gradient-to-r from-red-50 to-pink-50 text-gray-900 py-12 md:py-16 border-b border-red-300">
+                <div class="max-w-6xl mx-auto px-4 md:px-8">
+                    <div class="flex justify-between items-start gap-4 mb-8">
+                        <div class="flex gap-2">
+                            <button id="lang-en"
+                                class="lang-btn px-4 py-2 text-sm font-semibold rounded-xl transition-all duration-300 hover:scale-105"
+                                style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); color: white; border: none; box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);"
+                                onclick="switchLanguage('en')">
+                                🇬🇧 EN
+                            </button>
+                            <button id="lang-zh"
+                                class="lang-btn px-4 py-2 text-sm font-semibold rounded-xl transition-all duration-300 hover:scale-105"
+                                style="background: rgba(255, 255, 255, 0.5); color: #666; border: 2px solid #ddd;"
+                                onclick="switchLanguage('zh')">
+                                🇹🇼 中文
+                            </button>
+                        </div>
+                        <div class="text-right text-xs text-gray-700">
+                            <p>v2.1.0</p>
+                        </div>
+                    </div>
+
+                    <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+                        <span data-lang-en>Terms of Service</span>
+                        <span data-lang-zh style="display: none;">服務條款</span>
+                    </h1>
+                    <p class="text-gray-800 text-lg max-w-2xl">
+                        <span data-lang-en>Effective Date: November 23, 2025</span>
+                        <span data-lang-zh style="display: none;">生效日期：2025年11月23日</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-20">
+                <div class="mb-12 bg-white border-l-4 border-red-300 p-6 md:p-8 rounded">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                        <span data-lang-en>Agreement Overview</span>
+                        <span data-lang-zh style="display: none;">協議概述</span>
+                    </h2>
+                    <p class="text-gray-700 leading-relaxed" data-lang-en>
+                        These Terms of Service ("Terms") constitute a legally binding agreement between you ("User" or
+                        "you") and our organization ("Platform," "we," "us," or "our"). By accessing or using our
+                        services, you acknowledge that you have read, understood, and agree to be bound by all terms and
+                        conditions contained herein.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed" data-lang-zh style="display: none;">
+                        本服務條款（以下簡稱「條款」）構成您（「用戶」或「您」）與本組織（「平台」、「我們」或「本機構」）之間具有法律約束力的協議。通過訪問或使用我們的服務，您表示已閱讀、理解並同意受本條款約束。
+                    </p>
+                </div>
+
+                <div class="mb-12">
+                    <h3 class="text-sm md:text-base font-bold uppercase tracking-wider mb-6" style="color: #4a5568;">
+                        <span data-lang-en>📑 Quick Navigation</span>
+                        <span data-lang-zh style="display: none;">📑 快速導航</span>
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+                        <a href="#section-1"
+                            class="group block p-4 bg-white rounded-xl border-2 border-gray-100 hover:border-red-300 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                            style="text-decoration: none;">
+                            <div class="text-2xl mb-2">✅</div>
+                            <p class="font-semibold text-sm text-gray-900 group-hover:text-red-500 transition-colors">
+                                <span data-lang-en>Acceptance</span>
+                                <span data-lang-zh style="display: none;">條款接受</span>
+                            </p>
+                        </a>
+                        <a href="#section-2"
+                            class="group block p-4 bg-white rounded-xl border-2 border-gray-100 hover:border-blue-300 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                            style="text-decoration: none;">
+                            <div class="text-2xl mb-2">🔧</div>
+                            <p class="font-semibold text-sm text-gray-900 group-hover:text-blue-500 transition-colors">
+                                <span data-lang-en>Service</span>
+                                <span data-lang-zh style="display: none;">服務描述</span>
+                            </p>
+                        </a>
+                        <a href="#section-3"
+                            class="group block p-4 bg-white rounded-xl border-2 border-gray-100 hover:border-green-300 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                            style="text-decoration: none;">
+                            <div class="text-2xl mb-2">📋</div>
+                            <p class="font-semibold text-sm text-gray-900 group-hover:text-green-500 transition-colors">
+                                <span data-lang-en>Obligations</span>
+                                <span data-lang-zh style="display: none;">用戶義務</span>
+                            </p>
+                        </a>
+                        <a href="#section-4"
+                            class="group block p-4 bg-white rounded-xl border-2 border-gray-100 hover:border-yellow-300 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                            style="text-decoration: none;">
+                            <div class="text-2xl mb-2">🚫</div>
+                            <p
+                                class="font-semibold text-sm text-gray-900 group-hover:text-yellow-600 transition-colors">
+                                <span data-lang-en>Prohibited</span>
+                                <span data-lang-zh style="display: none;">禁止內容</span>
+                            </p>
+                        </a>
+                        <a href="#section-5"
+                            class="group block p-4 bg-white rounded-xl border-2 border-gray-100 hover:border-purple-300 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                            style="text-decoration: none;">
+                            <div class="text-2xl mb-2">🔒</div>
+                            <p
+                                class="font-semibold text-sm text-gray-900 group-hover:text-purple-500 transition-colors">
+                                <span data-lang-en>Privacy</span>
+                                <span data-lang-zh style="display: none;">隱私與安全</span>
+                            </p>
+                        </a>
+                        <a href="#section-6"
+                            class="group block p-4 bg-white rounded-xl border-2 border-gray-100 hover:border-pink-300 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                            style="text-decoration: none;">
+                            <div class="text-2xl mb-2">⚖️</div>
+                            <p class="font-semibold text-sm text-gray-900 group-hover:text-pink-500 transition-colors">
+                                <span data-lang-en>Liability</span>
+                                <span data-lang-zh style="display: none;">責任限制</span>
+                            </p>
+                        </a>
+                        <a href="#section-7"
+                            class="group block p-4 bg-white rounded-xl border-2 border-gray-100 hover:border-indigo-300 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                            style="text-decoration: none;">
+                            <div class="text-2xl mb-2">©️</div>
+                            <p
+                                class="font-semibold text-sm text-gray-900 group-hover:text-indigo-500 transition-colors">
+                                <span data-lang-en>IP Rights</span>
+                                <span data-lang-zh style="display: none;">知識產權</span>
+                            </p>
+                        </a>
+                        <a href="#section-8"
+                            class="group block p-4 bg-white rounded-xl border-2 border-gray-100 hover:border-teal-300 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                            style="text-decoration: none;">
+                            <div class="text-2xl mb-2">📜</div>
+                            <p class="font-semibold text-sm text-gray-900 group-hover:text-teal-500 transition-colors">
+                                <span data-lang-en>Compliance</span>
+                                <span data-lang-zh style="display: none;">合規性</span>
+                            </p>
+                        </a>
+                        <a href="#section-9"
+                            class="group block p-4 bg-white rounded-xl border-2 border-gray-100 hover:border-orange-300 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                            style="text-decoration: none;">
+                            <div class="text-2xl mb-2">🔄</div>
+                            <p
+                                class="font-semibold text-sm text-gray-900 group-hover:text-orange-500 transition-colors">
+                                <span data-lang-en>Maintenance</span>
+                                <span data-lang-zh style="display: none;">維護</span>
+                            </p>
+                        </a>
+                        <a href="#section-additional"
+                            class="group block p-4 bg-white rounded-xl border-2 border-gray-100 hover:border-cyan-300 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                            style="text-decoration: none;">
+                            <div class="text-2xl mb-2">📝</div>
+                            <p class="font-semibold text-sm text-gray-900 group-hover:text-cyan-500 transition-colors">
+                                <span data-lang-en>Amendments</span>
+                                <span data-lang-zh style="display: none;">修訂</span>
+                            </p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="space-y-16">
+
+                    <section class="scroll-mt-24" id="section-1">
+                        <div class="mb-6 border-b-2 border-red-300 pb-4">
+                            <h3 class="text-3xl md:text-4xl font-bold text-gray-900">
+                                <span data-lang-en>1. Acceptance of Terms</span>
+                                <span data-lang-zh style="display: none;">1. 條款接受</span>
+                            </h3>
+                            <p class="text-gray-700 text-lg mt-2">
+                                <span data-lang-en>Terms Acceptance</span>
+                                <span data-lang-zh style="display: none;">條款接受</span>
+                            </p>
+                        </div>
+                        <div class="text-gray-700 space-y-4 leading-relaxed">
+                            <p data-lang-en>
+                                By accessing, browsing, or using this platform and its services (collectively, the
+                                "Service"), you acknowledge that you have read these Terms of Service and agree to be
+                                legally bound by them. If you do not agree to be bound by these Terms, you must
+                                immediately cease accessing and using the Service.
+                            </p>
+                            <p data-lang-zh style="display: none;">
+                                通過訪問、瀏覽或使用本平台及其服務（統稱「服務」），您表示已閱讀本服務條款並同意受其具有法律約束力。如果您不同意受本條款約束，您必須立即停止訪問和使用本服務。
+                            </p>
+                            <p class="text-sm text-gray-400 bg-white p-4 rounded border-l-4 border-red-300">
+                                <strong>
+                                    <span data-lang-en>Note:</span>
+                                    <span data-lang-zh style="display: none;">注意：</span>
+                                </strong>
+                                <span data-lang-en>These Terms may be updated periodically. Your continued use of the
+                                    Service constitutes your acceptance of any modifications.</span>
+                                <span data-lang-zh style="display: none;">本條款可能會定期更新。您繼續使用本服務表示接受任何修改。</span>
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="scroll-mt-24" id="section-2">
+                        <div class="mb-6 border-b-2 border-red-300 pb-4">
+                            <h3 class="text-3xl md:text-4xl font-bold text-gray-900">
+                                <span data-lang-en>2. Service Description</span>
+                                <span data-lang-zh style="display: none;">2. 服務描述</span>
+                            </h3>
+                            <p class="text-gray-700 text-lg mt-2">
+                                <span data-lang-en>Service Details</span>
+                                <span data-lang-zh style="display: none;">服務詳情</span>
+                            </p>
+                        </div>
+                        <div class="text-gray-700 space-y-4 leading-relaxed">
+                            <p data-lang-en>
+                                Our platform provides an anonymous submission service that allows users to share
+                                information while maintaining confidentiality. The Service is provided for lawful
+                                purposes only and is designed to facilitate transparent communication.
+                            </p>
+                            <p data-lang-zh style="display: none;">
+                                本平台提供匿名投稿服務，允許用戶在保持保密的情況下共享信息。本服務僅用於合法目的，旨在促進透明的溝通。
+                            </p>
+                            <div class="bg-white p-6 rounded-lg border border-gray-200 mt-6">
+                                <h4 class="font-semibold text-gray-900 mb-4">
+                                    <span data-lang-en>Key Service Features:</span>
+                                    <span data-lang-zh style="display: none;">關鍵服務特性：</span>
+                                </h4>
+                                <ul class="space-y-3">
+                                    <li class="flex gap-3">
+                                        <span class="text-gray-700 font-bold flex-shrink-0">-</span>
+                                        <span>
+                                            <strong data-lang-en>Anonymous Submissions:</strong>
+                                            <strong data-lang-zh style="display: none;">匿名投稿：</strong>
+                                            <span data-lang-en>Complete confidentiality of user identity</span>
+                                            <span data-lang-zh style="display: none;">完整的用戶身份保密</span>
+                                        </span>
+                                    </li>
+                                    <li class="flex gap-3">
+                                        <span class="text-gray-700 font-bold flex-shrink-0">-</span>
+                                        <span>
+                                            <strong data-lang-en>Secure Encryption:</strong>
+                                            <strong data-lang-zh style="display: none;">安全加密：</strong>
+                                            <span data-lang-en>Industry-standard security protocols</span>
+                                            <span data-lang-zh style="display: none;">行業標準的安全協議</span>
+                                        </span>
+                                    </li>
+                                    <li class="flex gap-3">
+                                        <span class="text-gray-700 font-bold flex-shrink-0">-</span>
+                                        <span>
+                                            <strong data-lang-en>Content Moderation:</strong>
+                                            <strong data-lang-zh style="display: none;">內容審核：</strong>
+                                            <span data-lang-en>Professional review and quality control</span>
+                                            <span data-lang-zh style="display: none;">專業審核和質量控制</span>
+                                        </span>
+                                    </li>
+                                    <li class="flex gap-3">
+                                        <span class="text-gray-700 font-bold flex-shrink-0">-</span>
+                                        <span>
+                                            <strong data-lang-en>Data Protection:</strong>
+                                            <strong data-lang-zh style="display: none;">數據保護：</strong>
+                                            <span data-lang-en>Compliance with data protection regulations</span>
+                                            <span data-lang-zh style="display: none;">符合數據保護法規</span>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="scroll-mt-24" id="section-3">
+                        <div class="mb-6 border-b-2 border-red-300 pb-4">
+                            <h3 class="text-3xl md:text-4xl font-bold text-gray-900">
+                                <span data-lang-en>3. User Obligations</span>
+                                <span data-lang-zh style="display: none;">3. 用戶義務</span>
+                            </h3>
+                            <p class="text-gray-700 text-lg mt-2">
+                                <span data-lang-en>Your Responsibilities</span>
+                                <span data-lang-zh style="display: none;">用戶責任</span>
+                            </p>
+                        </div>
+                        <div class="text-gray-700 space-y-4 leading-relaxed">
+                            <p data-lang-en>
+                                Users are responsible for providing accurate information and using the Service in
+                                compliance with all applicable laws and regulations. You agree not to engage in any
+                                activities that could harm the Service or other users.
+                            </p>
+                            <p data-lang-zh style="display: none;">
+                                用戶負責提供準確的信息，並按照所有適用的法律和法規使用本服務。您同意不從事任何可能損害本服務或其他用戶的活動。
+                            </p>
+                            <div class="bg-red-950 border border-red-800 p-6 rounded-lg mt-6">
+                                <h4 class="font-semibold text-red-200 mb-4">
+                                    <span data-lang-en>You agree NOT to:</span>
+                                    <span data-lang-zh style="display: none;">您同意不會：</span>
+                                </h4>
+                                <ul class="space-y-2 text-red-300">
+                                    <li class="flex gap-2"><span data-lang-en>- Submit false, misleading, or defamatory
+                                            content</span><span data-lang-zh style="display: none;">-
+                                            提交虛假、誤導性或誹謗性內容</span></li>
+                                    <li class="flex gap-2"><span data-lang-en>- Violate any intellectual property rights
+                                            or copyrights</span><span data-lang-zh style="display: none;">-
+                                            侵犯任何知識產權或著作權</span></li>
+                                    <li class="flex gap-2"><span data-lang-en>- Engage in spam, harassment, or abusive
+                                            behavior</span><span data-lang-zh style="display: none;">-
+                                            進行垃圾郵件、騷擾或辱罵行為</span></li>
+                                    <li class="flex gap-2"><span data-lang-en>- Attempt to bypass security measures or
+                                            filters</span><span data-lang-zh style="display: none;">-
+                                            嘗試繞過安全措施或過濾器</span></li>
+                                    <li class="flex gap-2"><span data-lang-en>- Use the Service for illegal activities
+                                            or purposes</span><span data-lang-zh style="display: none;">-
+                                            將本服務用於非法活動或目的</span></li>
+                                    <li class="flex gap-2"><span data-lang-en>- Disrupt or interfere with platform
+                                            operations</span><span data-lang-zh style="display: none;">-
+                                            干擾或中斷平台操作</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="scroll-mt-24" id="section-4">
+                        <div class="mb-6 border-b-2 border-red-300 pb-4">
+                            <h3 class="text-3xl md:text-4xl font-bold text-gray-900">
+                                <span data-lang-en>4. Prohibited Content</span>
+                                <span data-lang-zh style="display: none;">4. 禁止內容</span>
+                            </h3>
+                            <p class="text-gray-700 text-lg mt-2">
+                                <span data-lang-en>Content Restrictions</span>
+                                <span data-lang-zh style="display: none;">內容限制</span>
+                            </p>
+                        </div>
+                        <div class="text-gray-700 space-y-4 leading-relaxed">
+                            <p data-lang-en>
+                                The following types of content are strictly prohibited and will be rejected. Users who
+                                repeatedly submit prohibited content may face account suspension or termination.
+                            </p>
+                            <p data-lang-zh style="display: none;">
+                                以下內容類型嚴格禁止且將被拒絕。重複提交禁止內容的用戶可能面臨帳戶暫停或終止。
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                                <div class="border-l-4 border-red-600 bg-white p-4 rounded">
+                                    <p class="font-semibold text-red-400 mb-2">
+                                        <span data-lang-en>1. Spam & Gibberish</span>
+                                        <span data-lang-zh style="display: none;">1. 垃圾信息與亂碼</span>
+                                    </p>
+                                    <p class="text-gray-400 text-sm" data-lang-en>Repetitive, meaningless, or automated
+                                        submissions</p>
+                                    <p class="text-gray-400 text-sm" data-lang-zh style="display: none;">重複、無意義或自動化提交
+                                    </p>
+                                </div>
+                                <div class="border-l-4 border-red-600 bg-white p-4 rounded">
+                                    <p class="font-semibold text-red-400 mb-2">
+                                        <span data-lang-en>2. Excessive Special Characters</span>
+                                        <span data-lang-zh style="display: none;">2. 過多特殊字符</span>
+                                    </p>
+                                    <p class="text-gray-400 text-sm" data-lang-en>Content consisting primarily of
+                                        symbols or unusual characters</p>
+                                    <p class="text-gray-400 text-sm" data-lang-zh style="display: none;">
+                                        主要由符號或不尋常字符組成的內容</p>
+                                </div>
+                                <div class="border-l-4 border-red-600 bg-white p-4 rounded">
+                                    <p class="font-semibold text-red-400 mb-2">
+                                        <span data-lang-en>3. Promotional Links</span>
+                                        <span data-lang-zh style="display: none;">3. 推廣鏈接</span>
+                                    </p>
+                                    <p class="text-gray-400 text-sm" data-lang-en>URLs, affiliate links, or advertising
+                                        content</p>
+                                    <p class="text-gray-400 text-sm" data-lang-zh style="display: none;">URL、附屬鏈接或廣告內容
+                                    </p>
+                                </div>
+                                <div class="border-l-4 border-red-600 bg-white p-4 rounded">
+                                    <p class="font-semibold text-red-400 mb-2">
+                                        <span data-lang-en>4. Duplicate Submissions</span>
+                                        <span data-lang-zh style="display: none;">4. 重複提交</span>
+                                    </p>
+                                    <p class="text-gray-400 text-sm" data-lang-en>Identical content submitted within a
+                                        10-minute period</p>
+                                    <p class="text-gray-400 text-sm" data-lang-zh style="display: none;">在10分鐘內提交的相同內容
+                                    </p>
+                                </div>
+                                <div class="border-l-4 border-red-600 bg-white p-4 rounded">
+                                    <p class="font-semibold text-red-400 mb-2">
+                                        <span data-lang-en>5. Illegal Content</span>
+                                        <span data-lang-zh style="display: none;">5. 違法內容</span>
+                                    </p>
+                                    <p class="text-gray-400 text-sm" data-lang-en>Content that violates applicable laws
+                                        or regulations</p>
+                                    <p class="text-gray-400 text-sm" data-lang-zh style="display: none;">違反適用法律或法規的內容
+                                    </p>
+                                </div>
+                                <div class="border-l-4 border-red-600 bg-white p-4 rounded">
+                                    <p class="font-semibold text-red-400 mb-2">
+                                        <span data-lang-en>6. Offensive Material</span>
+                                        <span data-lang-zh style="display: none;">6. 冒犯性材料</span>
+                                    </p>
+                                    <p class="text-gray-400 text-sm" data-lang-en>Harassing, defamatory, or hate-based
+                                        content</p>
+                                    <p class="text-gray-400 text-sm" data-lang-zh style="display: none;">騷擾、誹謗或仇恨內容</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="scroll-mt-24" id="section-5">
+                        <div class="mb-6 border-b-2 border-red-300 pb-4">
+                            <h3 class="text-3xl md:text-4xl font-bold text-gray-900">
+                                <span data-lang-en>5. Privacy & Security</span>
+                                <span data-lang-zh style="display: none;">5. 隱私與安全</span>
+                            </h3>
+                            <p class="text-gray-700 text-lg mt-2">
+                                <span data-lang-en>Data Protection</span>
+                                <span data-lang-zh style="display: none;">數據保護</span>
+                            </p>
+                        </div>
+                        <div class="text-gray-700 space-y-4 leading-relaxed">
+                            <p data-lang-en>
+                                We are committed to protecting your privacy and maintaining the confidentiality of your
+                                personal information. All submissions are encrypted using industry-standard security
+                                protocols and stored in secure environments.
+                            </p>
+                            <p data-lang-zh style="display: none;">
+                                我們致力於保護您的隱私並維護您個人信息的保密性。所有提交的內容都使用行業標準的安全協議進行加密，並存儲在安全的環境中。
+                            </p>
+                            <div class="space-y-4 mt-6">
+                                <div class="bg-white border border-gray-200 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-700 mb-2">
+                                        <span data-lang-en>Identity Protection</span>
+                                        <span data-lang-zh style="display: none;">身份保護</span>
+                                    </h4>
+                                    <p class="text-gray-400 text-sm">
+                                        <span data-lang-en>Your personal information remains completely anonymous and
+                                            will never be disclosed to third parties without your explicit
+                                            consent.</span>
+                                        <span data-lang-zh style="display: none;">您的個人信息保持完全匿名，未經您明確同意，不會向第三方披露。</span>
+                                    </p>
+                                </div>
+                                <div class="bg-white border border-gray-200 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-700 mb-2">
+                                        <span data-lang-en>Data Encryption</span>
+                                        <span data-lang-zh style="display: none;">數據加密</span>
+                                    </h4>
+                                    <p class="text-gray-400 text-sm">
+                                        <span data-lang-en>All communications and submissions are protected using
+                                            end-to-end encryption technology.</span>
+                                        <span data-lang-zh style="display: none;">所有通信和提交都使用端到端加密技術進行保護。</span>
+                                    </p>
+                                </div>
+                                <div class="bg-white border border-gray-200 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-700 mb-2">
+                                        <span data-lang-en>Data Retention</span>
+                                        <span data-lang-zh style="display: none;">數據保留</span>
+                                    </h4>
+                                    <p class="text-gray-400 text-sm">
+                                        <span data-lang-en>We retain submission data only as long as necessary to
+                                            maintain platform operations, then securely delete it.</span>
+                                        <span data-lang-zh style="display: none;">我們僅在必要時保留提交數據以維護平台運營，然後安全刪除。</span>
+                                    </p>
+                                </div>
+                                <div class="bg-white border border-gray-200 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-700 mb-2">
+                                        <span data-lang-en>Legal Compliance</span>
+                                        <span data-lang-zh style="display: none;">法律合規</span>
+                                    </h4>
+                                    <p class="text-gray-400 text-sm">
+                                        <span data-lang-en>We comply with all applicable data protection regulations and
+                                            privacy laws.</span>
+                                        <span data-lang-zh style="display: none;">我們遵守所有適用的數據保護法規和隱私法。</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="scroll-mt-24" id="section-6">
+                        <div class="mb-6 border-b-2 border-red-300 pb-4">
+                            <h3 class="text-3xl md:text-4xl font-bold text-gray-900">
+                                <span data-lang-en>6. Limitation of Liability & Disclaimer</span>
+                                <span data-lang-zh style="display: none;">6. 責任限制與免責聲明</span>
+                            </h3>
+                            <p class="text-gray-700 text-lg mt-2">
+                                <span data-lang-en>Disclaimers</span>
+                                <span data-lang-zh style="display: none;">免責聲明</span>
+                            </p>
+                        </div>
+                        <div class="text-gray-700 space-y-4 leading-relaxed">
+                            <div class="p-6 rounded-xl mb-6"
+                                style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b; box-shadow: 0 2px 10px rgba(245, 158, 11, 0.2);">
+                                <div class="flex items-start gap-3">
+                                    <span class="text-3xl">⚠️</span>
+                                    <div>
+                                        <p class="font-bold mb-3 text-lg" style="color: #92400e;">
+                                            <span data-lang-en>DISCLAIMER</span>
+                                            <span data-lang-zh style="display: none;">免責聲明</span>
+                                        </p>
+                                        <p class="leading-relaxed" style="color: #78350f;">
+                                            <span data-lang-en>This Service is provided "AS IS" and "AS AVAILABLE"
+                                                without any
+                                                representations, warranties, or conditions of any kind, either express
+                                                or
+                                                implied. To the fullest extent permitted by law, we disclaim all
+                                                warranties,
+                                                including but not limited to, merchantability, fitness for a particular
+                                                purpose,
+                                                and non-infringement.</span>
+                                            <span data-lang-zh
+                                                style="display: none;">本服務按「現狀」和「現有」提供，不提供任何明示或暗示的代表、保證或條件。在法律允許的最大範圍內，我們免除所有保證，包括但不限於適銷性、特定用途的適用性和不侵權。</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p data-lang-en>
+                                We shall not be held liable for any of the following, even if we have been advised of
+                                the possibility of such damages:
+                            </p>
+                            <p data-lang-zh style="display: none;">
+                                即使我們已被告知可能發生此類損害，我們也不對以下任何情況承擔責任：
+                            </p>
+                            <ul class="space-y-3 mt-4">
+                                <li class="flex gap-3 items-start">
+                                    <span class="text-gray-700 font-bold flex-shrink-0">1.</span>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">
+                                            <span data-lang-en>User-Generated Content</span>
+                                            <span data-lang-zh style="display: none;">用戶生成的內容</span>
+                                        </p>
+                                        <p class="text-gray-400 text-sm">
+                                            <span data-lang-en>Any content submitted, published, or displayed by users
+                                                on the platform</span>
+                                            <span data-lang-zh style="display: none;">用戶在平台上提交、發佈或顯示的任何內容</span>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="flex gap-3 items-start">
+                                    <span class="text-gray-700 font-bold flex-shrink-0">2.</span>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">
+                                            <span data-lang-en>Data Loss or Deletion</span>
+                                            <span data-lang-zh style="display: none;">數據丟失或刪除</span>
+                                        </p>
+                                        <p class="text-gray-400 text-sm">
+                                            <span data-lang-en>Loss or permanent deletion of submissions or personal
+                                                information</span>
+                                            <span data-lang-zh style="display: none;">提交或個人信息的丟失或永久刪除</span>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="flex gap-3 items-start">
+                                    <span class="text-gray-700 font-bold flex-shrink-0">3.</span>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">
+                                            <span data-lang-en>Service Interruptions</span>
+                                            <span data-lang-zh style="display: none;">服務中斷</span>
+                                        </p>
+                                        <p class="text-gray-400 text-sm">
+                                            <span data-lang-en>Downtime, technical failures, or unavailability of
+                                                services</span>
+                                            <span data-lang-zh style="display: none;">停機、技術故障或服務不可用</span>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="flex gap-3 items-start">
+                                    <span class="text-gray-700 font-bold flex-shrink-0">4.</span>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">
+                                            <span data-lang-en>Consequential Damages</span>
+                                            <span data-lang-zh style="display: none;">後續損害</span>
+                                        </p>
+                                        <p class="text-gray-400 text-sm">
+                                            <span data-lang-en>Indirect, incidental, special, punitive, or consequential
+                                                damages</span>
+                                            <span data-lang-zh style="display: none;">間接、附帶、特殊、懲罰性或後續損害</span>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="flex gap-3 items-start">
+                                    <span class="text-gray-700 font-bold flex-shrink-0">5.</span>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">
+                                            <span data-lang-en>Third-Party Actions</span>
+                                            <span data-lang-zh style="display: none;">第三方行為</span>
+                                        </p>
+                                        <p class="text-gray-400 text-sm">
+                                            <span data-lang-en>Any third-party access to or use of the Service</span>
+                                            <span data-lang-zh style="display: none;">任何第三方對本服務的訪問或使用</span>
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section class="scroll-mt-24" id="section-7">
+                        <div class="mb-6 border-b-2 border-red-300 pb-4">
+                            <h3 class="text-3xl md:text-4xl font-bold text-gray-900">
+                                <span data-lang-en>7. Intellectual Property Rights</span>
+                                <span data-lang-zh style="display: none;">7. 知識產權</span>
+                            </h3>
+                            <p class="text-gray-700 text-lg mt-2">
+                                <span data-lang-en>IPR & Ownership</span>
+                                <span data-lang-zh style="display: none;">知識產權所有權</span>
+                            </p>
+                        </div>
+                        <div class="text-gray-700 space-y-4 leading-relaxed">
+                            <p data-lang-en>
+                                All intellectual property rights, including but not limited to copyrights, trademarks,
+                                patents, and trade secrets related to the Service, platform infrastructure, design,
+                                content, and functionality are the exclusive property of our organization. No license,
+                                title, or ownership interest is transferred to you except for the limited right to use
+                                the Service in accordance with these Terms.
+                            </p>
+                            <p data-lang-zh style="display: none;">
+                                本服務所有知識產權，包括但不限於版權、商標、專利和與本服務、平台基礎設施、設計、內容和功能相關的商業機密，均為本機構的獨家財產。除根據本條款使用本服務的有限權利外，本機構不向您轉移任何許可、所有權或所有權利益。
+                            </p>
+                            <div class="bg-white p-4 rounded-lg border border-gray-200 mt-4">
+                                <p class="text-sm" data-lang-en>
+                                    <strong>Restrictions:</strong> You may not reproduce, distribute, modify, or create
+                                    derivative works from any content without prior written permission. Unauthorized use
+                                    of intellectual property may result in legal action.
+                                </p>
+                                <p class="text-sm" data-lang-zh style="display: none;">
+                                    <strong>限制：</strong>未經事先書面許可，您不得複製、分發、修改或基於任何內容創建衍生作品。未經授權使用知識產權可能導致法律訴訟。
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="scroll-mt-24" id="section-8">
+                        <div class="mb-6 border-b-2 border-red-300 pb-4">
+                            <h3 class="text-3xl md:text-4xl font-bold text-gray-900">
+                                <span data-lang-en>8. Compliance & Legal Requirements</span>
+                                <span data-lang-zh style="display: none;">8. 合規性與法律要求</span>
+                            </h3>
+                            <p class="text-gray-700 text-lg mt-2">
+                                <span data-lang-en>Regulatory Compliance</span>
+                                <span data-lang-zh style="display: none;">法規合規</span>
+                            </p>
+                        </div>
+                        <div class="text-gray-700 space-y-4 leading-relaxed">
+                            <p data-lang-en>
+                                The Service is subject to export control laws and regulations. You agree to comply with
+                                all applicable laws including sanctions regulations and anti-money laundering
+                                provisions. We reserve the right to deny Service access to users in certain
+                                jurisdictions or to users engaged in prohibited activities.
+                            </p>
+                            <p data-lang-zh style="display: none;">
+                                本服務受出口管制法律和法規的約束。您同意遵守所有適用法律，包括制裁法規和反洗錢條款。我們保留拒絕某些司法管轄區用戶或從事禁止活動用戶訪問本服務的權利。
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="scroll-mt-24" id="section-9">
+                        <div class="mb-6 border-b-2 border-red-300 pb-4">
+                            <h3 class="text-3xl md:text-4xl font-bold text-gray-900">
+                                <span data-lang-en>9. Service Availability & Maintenance</span>
+                                <span data-lang-zh style="display: none;">9. 服務可用性和維護</span>
+                            </h3>
+                            <p class="text-gray-700 text-lg mt-2">
+                                <span data-lang-en>Service Continuity</span>
+                                <span data-lang-zh style="display: none;">服務持續性</span>
+                            </p>
+                        </div>
+                        <div class="text-gray-700 space-y-4 leading-relaxed">
+                            <p data-lang-en>
+                                We strive to maintain continuous Service availability. However, we do not guarantee
+                                uninterrupted service and may suspend, limit, or discontinue any portion or feature of
+                                the Service at any time. We may perform scheduled maintenance, upgrades, or repairs,
+                                which may temporarily interrupt Service access.
+                            </p>
+                            <p data-lang-zh style="display: none;">
+                                我們致力於維護本服務的持續可用性。但是，我們不保證不間斷的服務，並可能隨時暫停、限制或終止服務的任何部分或功能。我們可能進行計劃性維護、升級或修復，這可能會暫時中斷服務訪問。
+                            </p>
+                            <div class="bg-white p-4 rounded-lg border border-gray-200 mt-4">
+                                <ul class="space-y-2 text-sm">
+                                    <li data-lang-en>- Maintenance windows: We will notify users of scheduled
+                                        maintenance when feasible</li>
+                                    <li data-lang-zh style="display: none;">- 維護時間窗口：在可行時，我們將通知用戶計劃的維護時間</li>
+                                    <li data-lang-en>- Critical updates: Emergency maintenance may occur without notice
+                                    </li>
+                                    <li data-lang-zh style="display: none;">- 關鍵更新：緊急維護可能在沒有通知的情況下進行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="scroll-mt-24" id="section-additional">
+                        <div class="mb-6 border-b-2 border-red-300 pb-4">
+                            <h3 class="text-3xl md:text-4xl font-bold text-gray-900">
+                                <span data-lang-en>10. Amendments & Governing Law</span>
+                                <span data-lang-zh style="display: none;">10. 修訂與準據法</span>
+                            </h3>
+                            <p class="text-gray-700 text-lg mt-2">
+                                <span data-lang-en>Final Provisions</span>
+                                <span data-lang-zh style="display: none;">最終條款</span>
+                            </p>
+                        </div>
+                        <div class="text-gray-700 space-y-6 leading-relaxed">
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-3">
+                                    <span data-lang-en>Amendment of Terms</span>
+                                    <span data-lang-zh style="display: none;">條款修訂</span>
+                                </h4>
+                                <p data-lang-en>
+                                    We reserve the right to modify, amend, or supplement these Terms at any time without
+                                    prior notice. Changes become effective immediately upon posting. Your continued use
+                                    of the Service constitutes acceptance of any modifications.
+                                </p>
+                                <p data-lang-zh style="display: none;">
+                                    我們保留隨時修改或補充本條款的權利，無需事先通知。任何更改將在發佈時立即生效。您繼續使用本服務表示接受任何修改。
+                                </p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-gray-200">
+                                <h4 class="font-semibold text-gray-900 mb-3">
+                                    <span data-lang-en>Governing Law</span>
+                                    <span data-lang-zh style="display: none;">準據法</span>
+                                </h4>
+                                <p class="text-gray-400">
+                                    <span data-lang-en>These Terms of Service are governed by and construed in
+                                        accordance with the applicable laws and regulations of the jurisdiction in which
+                                        the service operates.</span>
+                                    <span data-lang-zh style="display: none;">本服務條款受本服務運營所在司法管轄區的適用法律和法規管轄和解釋。</span>
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+                <div class="mt-16 md:mt-20 pt-12 border-t-2 border-gray-200">
+                    <div class="p-6 md:p-8 rounded-xl mb-8"
+                        style="background: white; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); border: 2px solid #ff6b6b;">
+                        <h3 class="text-lg md:text-xl font-bold mb-4" style="color: #1a202c;">
+                            <span data-lang-en>✅ Your Acceptance</span>
+                            <span data-lang-zh style="display: none;">✅ 您的接受</span>
+                        </h3>
+                        <p class="leading-relaxed text-lg" style="color: #2d3748; line-height: 1.8;">
+                            <span data-lang-en>
+                                By using this Service, you acknowledge that you have read, understood, and agree to be
+                                bound by these Terms of Service. If you have any questions or concerns, please contact
+                                us before using the Service.
+                            </span>
+                            <span data-lang-zh style="display: none;">
+                                使用本服務即表示您確認已閱讀、理解並同意受本服務條款的約束。如有任何疑問或疑慮，請立即停止使用本服務。
+                            </span>
+                        </p>
+                    </div>
+
+                    <div class="text-center space-y-4">
+                        <p class="text-sm" style="color: #718096;">
+                            <span data-lang-en>Last Updated: November 23, 2025</span>
+                            <span data-lang-zh style="display: none;">最後更新：2025年11月23日</span>
+                        </p>
+                        <p class="text-sm" style="color: #718096;">
+                            <span data-lang-en>Version 2.1.0</span>
+                            <span data-lang-zh style="display: none;">版本 2.1.0</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const navOverlay = document.getElementById('nav-overlay');
+        const closeMenuButton = document.getElementById('close-menu');
+        const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+        let previousFocusElement = null;
+
+        function setMenuButtonsState(isOpen) {
+            if (!hamburger || !closeMenuButton) {
+                return;
+            }
+            if (isOpen) {
+                hamburger.style.display = 'none';
+                closeMenuButton.style.display = 'inline-flex';
+                closeMenuButton.setAttribute('aria-hidden', 'false');
+            } else {
+                hamburger.style.display = '';
+                closeMenuButton.style.display = 'none';
+                closeMenuButton.setAttribute('aria-hidden', 'true');
+            }
+        }
+        setMenuButtonsState(false);
+
+        function getFocusableItems() {
+            return Array.from(navMenu.querySelectorAll(focusableSelector));
+        }
+
+        function handleMenuKeydown(event) {
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                closeMenu();
+                return;
+            }
+            if (event.key === 'Tab') {
+                const focusableItems = getFocusableItems();
+                if (focusableItems.length === 0) {
+                    return;
+                }
+                const firstItem = focusableItems[0];
+                const lastItem = focusableItems[focusableItems.length - 1];
+                if (!event.shiftKey && document.activeElement === lastItem) {
+                    event.preventDefault();
+                    firstItem.focus();
+                } else if (event.shiftKey && document.activeElement === firstItem) {
+                    event.preventDefault();
+                    lastItem.focus();
+                }
+            }
+        }
+
+        function openMenu() {
+            if (navMenu.classList.contains('active')) {
+                return;
+            }
+            previousFocusElement = document.activeElement;
+            navMenu.classList.add('active');
+            hamburger.classList.add('is-active');
+            setMenuButtonsState(true);
+            navOverlay.classList.add('show');
+            navOverlay.hidden = false;
+            navOverlay.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('menu-open');
+            hamburger.setAttribute('aria-expanded', 'true');
+            navMenu.setAttribute('aria-hidden', 'false');
+            const focusableItems = getFocusableItems();
+            if (focusableItems.length) {
+                focusableItems[0].focus();
+            }
+            document.addEventListener('keydown', handleMenuKeydown);
+        }
+
+        function closeMenu(restoreFocus = true) {
+            if (!navMenu.classList.contains('active')) {
+                return;
+            }
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('is-active');
+            setMenuButtonsState(false);
+            navOverlay.classList.remove('show');
+            navOverlay.hidden = true;
+            navOverlay.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('menu-open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            navMenu.setAttribute('aria-hidden', 'true');
+            document.removeEventListener('keydown', handleMenuKeydown);
+            if (restoreFocus) {
+                if (previousFocusElement) {
+                    previousFocusElement.focus();
+                } else {
+                    hamburger.focus();
+                }
+            }
+            previousFocusElement = null;
+        }
+        hamburger.addEventListener('click', () => {
+            if (navMenu.classList.contains('active')) {
+                closeMenu(false);
+            } else {
+                openMenu();
+            }
+        });
+        if (closeMenuButton) {
+            closeMenuButton.addEventListener('click', () => closeMenu());
+        }
+        navOverlay.addEventListener('click', () => closeMenu());
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                closeMenu(false);
+                navMenu.setAttribute('aria-hidden', 'false');
+                setMenuButtonsState(false);
+            } else if (!navMenu.classList.contains('active')) {
+                navMenu.setAttribute('aria-hidden', 'true');
+                setMenuButtonsState(false);
+            }
+        });
+        navMenu.querySelectorAll('.nav-menu-link').forEach(link => {
+            link.addEventListener('click', () => {
+                closeMenu();
+            });
+        });
+        if (window.innerWidth > 768) {
+            navMenu.setAttribute('aria-hidden', 'false');
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const notifications = document.querySelectorAll('.notification.show');
+            notifications.forEach(notification => {
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 5000);
+            });
+        });
+    </script>
+    <script defer
+        src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
+        integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
+        <footer
+        style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 1.5rem; box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04); border-top: 1px solid rgba(0, 0, 0, 0.05);">
+            <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; font-size: 0.875rem;">
+                    <a href="/guidelines" style="color: #555; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ff6f61'" onmouseout="this.style.color='#555'">投稿須知</a>
+                    <span style="color: #999;">·</span>
+                    <a href="/support" style="color: #555; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ff6f61'" onmouseout="this.style.color='#555'">聯絡我們</a>
+                    <span style="color: #999;">·</span>
+                    <a href="https://tfstudio.1001201.xyz/" target="_blank" rel="noopener" style="color: #555; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ff6f61'" onmouseout="this.style.color='#555'">TFStudio</a>
+                    <span style="color: #999;">·</span>
+                    <a href="/adm/dashboard" target="_blank" rel="noopener" style="color: #555; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ff6f61'" onmouseout="this.style.color='#555'">系統後台</a>
+                </div>
+                <p style="font-size: 0.75rem; color: #999; margin: 0;">Copyright © 2025 TFStudio All Rights Reserved</p>
+            </div>
+  </footer >
+                data - cf - beacon='{"version":"2024.11.0","token":"d4b1a68424704e0986483e31b3358013","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}'
+            crossorigin = "anonymous" ></script>
+</body>
+
+</html>

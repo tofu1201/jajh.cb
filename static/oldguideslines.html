@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% include '_seo_meta.html' %}
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', 'Microsoft JhengHei', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(135deg, #DECECE 0%, #E0D0D0 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header { display:flex; justify-content:space-between; align-items:center; background-color:#DBE2EC; padding:20px 40px; box-shadow:0 4px 15px rgba(0,0,0,0.08); position:sticky; top:0; z-index:100; }
+        .header-left { display:flex; align-items:center; gap:18px; }
+        .logo { height:45px; cursor:pointer; transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+        .logo:hover { transform:scale(1.08) rotate(2deg); }
+        .header h2 { margin:0; font-size:1.45rem; color:#333; font-weight:700; letter-spacing:0.5px; }
+        .home-btn { background:linear-gradient(135deg,#ff6f61,#ff5a52); color:#fff; border:none; padding:12px 24px; border-radius:10px; font-size:0.98rem; font-weight:600; cursor:pointer; text-decoration:none; display:inline-flex; gap:8px; align-items:center; transition:all 0.3s ease; box-shadow:0 4px 12px rgba(255,111,97,0.3); }
+        .home-btn:hover { transform:translateY(-3px); box-shadow:0 8px 20px rgba(255,111,97,0.4); }
+        .home-btn:active { transform:translateY(-1px); }
+        main { flex:1; display:flex; align-items:flex-start; justify-content:center; padding:50px 20px; }
+        .container { width:100%; max-width:920px; background:linear-gradient(135deg,rgba(0,0,0,0.72),rgba(20,20,30,0.75)); backdrop-filter:blur(10px); padding:50px 45px; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.05); }
+        h1 { text-align:center; font-size:2.2rem; margin-bottom:14px; font-weight:800; color:#fff; letter-spacing:1px; }
+        .subtitle { text-align:center; font-size:0.95rem; color:#ccc; margin-bottom:32px; font-weight:300; }
+        .highlight-box { background:linear-gradient(135deg,rgba(255,111,97,0.15),rgba(255,111,97,0.08)); border-left:5px solid #ff6f61; border-radius:10px; padding:18px 22px; margin-bottom:36px; backdrop-filter:blur(5px); border:1px solid rgba(255,111,97,0.2); }
+        .highlight-box p { font-size:1.02rem; line-height:1.7; color:#fff; }
+        .highlight-box strong { color:#ff8a7a; font-weight:700; }
+        .content-wrapper { display:grid; gap:32px; }
+        .section { border-left:4px solid rgba(255,111,97,0.4); padding-left:24px; transition:all 0.3s ease; }
+        .section:hover { border-left-color:#ff6f61; padding-left:28px; }
+        .section-number { background:linear-gradient(135deg,#ff6f61,#ff5a52); color:#fff; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem; margin-right:12px; margin-bottom:8px; }
+        .section-title { font-size:1.2rem; color:#ff8a7a; margin-bottom:14px; font-weight:700; letter-spacing:0.3px; display:flex; align-items:center; gap:10px; }
+        .section-content { font-size:1.02rem; line-height:1.8; color:#e6e6e6; margin-bottom:8px; }
+        ul { margin:16px 0 16px 36px; list-style:none; }
+        li { margin-bottom:12px; padding-left:24px; position:relative; font-size:1.02rem; line-height:1.75; color:#e6e6e6; }
+        li:before { content:"●"; position:absolute; left:0; color:#ff6f61; font-weight:700; font-size:0.7rem; }
+        li a { color:#ff8a7a; text-decoration:none; font-weight:600; border-bottom:1px solid rgba(255,138,122,0.3); }
+        li a:hover { color:#ffb3a8; border-bottom-color:#ff8a7a; }
+        .contact-section { background:rgba(255,111,97,0.08); border-radius:12px; padding:24px; margin-top:36px; border:1px solid rgba(255,111,97,0.15); }
+        footer { background:linear-gradient(135deg,#D8B0B0,#DDB8B8); color:#333; text-align:center; padding:24px 20px; font-size:0.95rem; line-height:1.8; margin-top:auto; box-shadow:0 -4px 15px rgba(0,0,0,0.1); }
+        footer a { color:#c1534d; text-decoration:none; font-weight:700; }
+        footer a:hover { color:#ff6f61; }
+        #update-date { margin-top:8px; font-size:0.9rem; color:#666; font-weight:500; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <img class="logo" src="/static/logo.webp" alt="新竹縣仁愛國中匿名板 Logo" onclick="window.location.href='/'" loading="lazy">
+            <h2>投稿須知</h2>
+        </div>
+        <a href="/" class="home-btn" aria-label="返回首頁">
+            <span>🏠</span><span>返回首頁</span>
+        </a>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>投稿須知</h1>
+            <p class="subtitle">發文規範與注意事項｜維護友善與安全的交流環境</p>
+
+            <div class="highlight-box">
+                <p><strong>重要提醒：</strong>投稿前請詳細閱讀以下規範。送出投稿即表示您已閱讀並同意遵守本須知之各項規定。</p>
+            </div>
+
+            <div class="content-wrapper">
+                <div class="section">
+                    <div class="section-title"><span class="section-number">1</span>投稿匿名性</div>
+                    <p class="section-content">本站提供匿名投稿功能；除公告及必要管理外，投稿身分不會公開。投稿內容僅為匿名使用者之意見或陳述，並不代表管理團隊或其他單位之立場。</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><span class="section-number">2</span>小編職責與立場聲明</div>
+                    <p class="section-content">小編負責平台內容之整理與發布作業，但不擔保投稿內容之完整性或正確性。對於使用者間因發言所生之民事或其他法律爭議，平台不作為當事人之代理或擔保人，投稿者應自行承擔相關責任。</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><span class="section-number">3</span>禁止事項（摘要）</div>
+                    <p class="section-content">為維護安全、尊重與公正之討論環境，本平台明確禁止以下類型之內容：</p>
+                    <ul>
+                        <li>具體識別他人身分或可直接辨識之個人資料（如姓名、學號、聯絡方式、照片等）的揭露。</li>
+                        <li>含有誹謗、侮辱、威脅、騷擾或煽動仇恨之言論。</li>
+                        <li>刻意散布不實資訊、造謠或惡意中傷他人名譽之內容。</li>
+                        <li>未經授權使用或轉載他人著作、影像或其他受保護之內容。</li>
+                        <li>其他可能損害第三人權益或嚴重破壞平台秩序之內容。</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><span class="section-number">4</span>個人資料與隱私保護</div>
+                    <p class="section-content">平台嚴格禁止在公開貼文中揭露他人私密或可識別之資訊。為維護所有使用者之隱私及安全，管理團隊在必要時得對疑似暴露個資之內容進行遮蔽或刪除處理，並採取適當之後續措施。</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><span class="section-number">5</span>使用者資訊紀錄與安全維護</div>
+                    <p class="section-content">為確保系統安全與追蹤異常行為，本平台於投稿、瀏覽或互動過程中，可能自動記錄使用者之 <strong>IP 位址</strong>、<strong>瀏覽器資訊</strong>、<strong>IG帳號</strong>及操作時間等技術性資料。</p>
+                    <p class="section-content">相關紀錄僅用於伺服器安全維護、異常偵測、使用統計與防止濫用等目的，不作為行銷用途。除必要情況外，不會將投稿者所填寫資訊作為身分識別用圖，亦不會提供予第三方。</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><span class="section-number">6</span>智慧財產權說明</div>
+                    <p class="section-content">投稿者應確認投稿內容之著作權或使用授權。若投稿包含第三方創作（如文字、圖片、影音等），投稿者應自行取得合法使用權限並對其聲明負責。平台得對侵權內容採移除或其他必要處置。</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><span class="section-number">7</span>管理權限與處置程序</div>
+                    <p class="section-content">管理團隊保有對投稿內容進行審核、編輯、隱藏或刪除之權利。遇有緊急或嚴重情形，平台得立即採取臨時處置並保留後續採取進一步行動之權利。若需向相關單位反映或提供資料，平台將依內部程序辦理。</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><span class="section-number">8</span>違規通報與申訴</div>
+                    <p class="section-content">使用者若發現違規內容，可透過官方聯絡管道提出通報。管理團隊將於收到通報後依既定程序審查；對處置結果有疑義者，使用者得提出書面說明或申訴，平台將在合理期間內回覆處理結果。</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><span class="section-number">9</span>使用者責任與風險告知</div>
+                    <p class="section-content">使用者於投稿或轉載平台內容時，應注意資訊之真實性並自行判斷其可用性與可信度。因依據平台內容所生之行為或決定所導致之風險與損害，應由使用者自行承擔。</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><span class="section-number">10</span>法律適用與爭議處理（簡述）</div>
+                    <p class="section-content">本須知旨在建立清晰之使用規範與處理流程。如與平台發生重要爭議，雙方應以誠信原則協商；協商不成時，依相關程序與適用機制進行後續處理。</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><span class="section-number">11</span>修訂與公告機制</div>
+                    <p class="section-content">平台得隨時修訂本須知，修訂內容於公開發布後生效。使用者於修訂後仍繼續使用平台或提交投稿者，視為同意修訂內容。</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><span class="section-number">12</span>聯絡方式</div>
+                    <div class="contact-section">
+                        <ul style="margin-left: 0;">
+                            <li>📧 <strong>Email：</strong><a href="mailto:support@jajhcb.qzz.io">support@jajhcb.qzz.io</a></li>
+                            <li>💬 <strong>聯絡我們：</strong><a href="/support">前往聯絡頁面</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="footer-year"></span> 新竹縣仁愛國中匿名板｜<a href="/guidelines">投稿須知</a>｜<a href="/support">聯絡我們</a></p>
+        <p>Designed by <a href="https://tfstudio.1001201.xyz/" target="_blank" rel="noopener noreferrer">TFStudio</a></p>
+        <p id="update-date"></p>
+    </footer>
+
+    <script>
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
+        (function() {
+            const updateElement = document.getElementById('update-date');
+            const d = new Date();
+            const formatted = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日 ' +
+                String(d.getHours()).padStart(2, '0') + ':' + 
+                String(d.getMinutes()).padStart(2, '0') + ':' + 
+                String(d.getSeconds()).padStart(2, '0');
+            updateElement.textContent = '📅 最後更新：' + formatted;
+        })();
+    </script>
+</body>
+</html>

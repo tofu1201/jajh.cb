@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查詢刪除請求狀態</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #DECECE;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+        }
+        .container {
+            max-width: 800px;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .search-box {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .request-info {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .status-badge {
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+        }
+        .status-pending { background-color: #ffc107; color: #000; }
+        .status-accepted { background-color: #28a745; color: #fff; }
+        .status-rejected { background-color: #dc3545; color: #fff; }
+        .status-completed { background-color: #6c757d; color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">查詢刪除請求狀態</h2>
+                
+                <!-- 查詢表單 -->
+                <div class="search-box">
+                    <form method="GET" action="{{ url_for('view_delete_requests') }}" class="mb-0">
+                        <div class="row g-3 align-items-center justify-content-center">
+                            <div class="col-auto">
+                                <label for="request_id" class="form-label mb-0">請求編號：</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="text" class="form-control" id="request_id" name="request_id" 
+                                       placeholder="輸入請求編號" value="{{ request.args.get('request_id', '') }}" required>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary">查詢</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- 查詢結果 -->
+                {% if request_info %}
+                    <div class="request-info">
+                        <h5 class="mb-4">請求詳情</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <strong>請求編號：</strong> {{ request_info.id }}
+                            </div>
+                            <div class="col-md-6">
+                                <strong>提交日期：</strong> {{ request_info.date }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <strong>處理狀態：</strong><br>
+                            <span class="badge status-{{ request_info.status }} status-badge">
+                                {% if request_info.status == 'pending' %}等待處理
+                                {% elif request_info.status == 'accepted' %}已接受
+                                {% elif request_info.status == 'rejected' %}已拒絕
+                                {% elif request_info.status == 'completed' %}已完成
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="mb-3">
+                            <strong>要求刪除內容：</strong>
+                            <div class="p-3 bg-light rounded">
+                                {{ request_info.content }}
+                            </div>
+                        </div>
+                        {% if request_info.status == 'rejected' and request_info.reject_reason %}
+                            <div class="mb-3">
+                                <strong>拒絕原因：</strong>
+                                <div class="p-3 bg-light rounded text-danger">
+                                    {{ request_info.reject_reason }}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% elif show_not_found %}
+                    <div class="alert alert-warning mt-3 mb-0">
+                        找不到編號為 {{ request.args.get('request_id') }} 的刪除請求記錄
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="text-center">
+            <a href="/" class="btn btn-secondary">返回首頁</a>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

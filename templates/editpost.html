@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投稿編輯</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #DECECE;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #DBE2EC;
+            padding: 20px 30px;
+            color: #333;
+        }
+        .header .logo {
+            height: 40px;
+            margin-right: 20px;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 1.6rem;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            max-width: 700px;
+            margin: 50px auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #444;
+            border-radius: 8px;
+            background-color: #222;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            border-color: #ff6f61;
+            outline: none;
+        }
+        button {
+            padding: 12px 20px;
+            background-color: #ff6f61;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #ff4b3e;
+        }
+        footer {
+            background-color: #D8B0B0;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+        footer a {
+            color: #ff6f61;  
+            text-decoration: none;
+            font-weight: bold;
+        }
+        footer a:hover {
+            color: #ff4b3e;
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function reloadPage() {
+            const postId = document.getElementById('postId').value;
+            if (postId) {
+                window.location.href = `/edit/${postId}`;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <img class="logo" src="/static/logo.png" alt="Logo">
+        <h2>投稿編輯</h2>
+    </div>
+
+    <div class="container">
+        <h1>投稿編輯</h1>
+        <label for="postId">請輸入投稿ID:</label>
+        <input type="text" id="postId" placeholder="輸入投稿ID">
+        <button onclick="reloadPage()">載入編輯頁面</button>
+
+        <form id="editForm" action="/api/edit" method="post" style="margin-top: 30px;">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <h2>編輯內容</h2>
+            <div>
+                <label for="content">內容:</label>
+                <input type="text" id="content" name="content" value="{{content}}">
+            </div>
+            <input type="hidden" id="submission_id" name="submission_id" value="{{soid}}">
+            <button type="submit">提交</button>
+        </form>
+    </div>
+
+    <footer style="margin-top: 50px;">
+        <p>&copy; 2025 新竹縣仁愛國中匿名板｜<a href="/guidelines">投稿須知</a>｜<a href="/support">聯絡我們</a></p>
+        <p>Designed by <a href="https://tfstudio.1001201.xyz/" target="_blank" rel="noopener noreferrer">TFStudio</a></p>
+    </footer>
+</body>
+</html>

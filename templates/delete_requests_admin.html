@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刪除請求管理 - 匿名仁愛後台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { background-color: #f8f9fa; }
+        .navbar { background-color: #343a40; }
+        .content-wrapper { padding: 2rem 0; }
+        .card { 
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 1.5rem;
+        }
+        .status-badge {
+            font-size: 0.875rem;
+            padding: 0.5em 0.75em;
+        }
+        .request-content {
+            max-height: 100px;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            margin: 0.5rem 0;
+        }
+        .action-buttons .btn {
+            margin: 0 0.25rem;
+        }
+        .detail-row {
+            display: none;
+            background-color: #f8f9fa;
+        }
+        .detail-row td {
+            padding: 1rem !important;
+        }
+        .request-meta {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        .filter-section {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/adm/dashboard">匿名仁愛後台管理</a>
+            <div class="d-flex">
+                <a href="/adm/dashboard" class="btn btn-outline-light me-2">返回主面板</a>
+                <a href="/" class="btn btn-outline-light">前台首頁</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container content-wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">刪除請求管理</h5>
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <select class="form-select form-select-sm" id="statusFilter">
+                                    <option value="">所有狀態</option>
+                                    <option value="pending">等待處理</option>
+                                    <option value="accepted">已接受</option>
+                                    <option value="rejected">已拒絕</option>
+                                    <option value="completed">已完成</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary btn-sm refresh-btn">
+                                <i class="fas fa-sync-alt"></i> 刷新
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 100px">請求ID</th>
+                                        <th>聯絡方式</th>
+                                        <th>內容摘要</th>
+                                        <th style="width: 150px">提交日期</th>
+                                        <th style="width: 100px">狀態</th>
+                                        <th style="width: 200px">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for request in delete_requests %}
+                                    <tr class="request-row" data-status="{{ request.status }}">
+                                        <td class="align-middle">
+                                            {{ request.id }}
+                                            <a href="#" class="ms-1 text-muted show-details" data-request-id="{{ request.id }}">
+                                                <i class="fas fa-chevron-down"></i>
+                                            </a>
+                                        </td>
+                                        <td class="align-middle">
+                                            {% if request.email %}
+                                            <div><i class="fas fa-envelope me-1"></i> {{ request.email }}</div>
+                                            {% endif %}
+                                            {% if request.instagram %}
+                                            <div><i class="fab fa-instagram me-1"></i> {{ request.instagram }}</div>
+                                            {% endif %}
+                                        </td>
+                                        <td class="align-middle">
+                                            {{ request.content[:100] + '...' if request.content|length > 100 else request.content }}
+                                        </td>
+                                        <td class="align-middle">{{ request.date }}</td>
+                                        <td class="align-middle">
+                                            <span class="badge status-badge {% if request.status == 'pending' %}bg-warning
+                                                     {% elif request.status == 'accepted' %}bg-success
+                                                     {% elif request.status == 'rejected' %}bg-danger
+                                                     {% else %}bg-secondary{% endif %}">
+                                                {% if request.status == 'pending' %}等待處理
+                                                {% elif request.status == 'accepted' %}已接受
+                                                {% elif request.status == 'rejected' %}已拒絕
+                                                {% else %}已完成
+                                                {% endif %}
+                                            </span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="action-buttons">
+                                                {% if request.status == 'pending' %}
+                                                <button class="btn btn-success btn-sm" onclick="updateStatus('{{ request.id }}', 'accepted')">
+                                                    <i class="fas fa-check"></i> 接受
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" onclick="showRejectModal('{{ request.id }}')">
+                                                    <i class="fas fa-times"></i> 拒絕
+                                                </button>
+                                                {% elif request.status == 'accepted' %}
+                                                <button class="btn btn-secondary btn-sm" onclick="updateStatus('{{ request.id }}', 'completed')">
+                                                    <i class="fas fa-check-double"></i> 標記完成
+                                                </button>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="detail-row" id="details-{{ request.id }}">
+                                        <td colspan="6">
+                                            <div class="request-details p-3">
+                                                <h6 class="mb-3">完整請求資訊</h6>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <strong>要求刪除內容：</strong>
+                                                            <div class="request-content">{{ request.content }}</div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <strong>刪除原因：</strong>
+                                                            <div class="request-content">{{ request.reason }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        {% if request.status == 'rejected' and request.reject_reason %}
+                                                        <div class="mb-3">
+                                                            <strong>拒絕原因：</strong>
+                                                            <div class="alert alert-danger">{{ request.reject_reason }}</div>
+                                                        </div>
+                                                        {% endif %}
+                                                        <div class="request-meta">
+                                                            <p class="mb-1"><strong>請求ID：</strong> {{ request.id }}</p>
+                                                            <p class="mb-1"><strong>提交時間：</strong> {{ request.date }}</p>
+                                                            <p class="mb-0"><strong>目前狀態：</strong> 
+                                                                <span class="badge {% if request.status == 'pending' %}bg-warning
+                                                                             {% elif request.status == 'accepted' %}bg-success
+                                                                             {% elif request.status == 'rejected' %}bg-danger
+                                                                             {% else %}bg-secondary{% endif %}">
+                                                                    {% if request.status == 'pending' %}等待處理
+                                                                    {% elif request.status == 'accepted' %}已接受
+                                                                    {% elif request.status == 'rejected' %}已拒絕
+                                                                    {% else %}已完成
+                                                                    {% endif %}
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 拒絕原因Modal -->
+    <div class="modal fade" id="rejectModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-times-circle text-danger me-2"></i>
+                        拒絕刪除請求
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="reject_request_id">
+                    <div class="mb-3">
+                        <label for="reject_reason" class="form-label">請輸入拒絕原因：</label>
+                        <textarea class="form-control" id="reject_reason" rows="4" 
+                                placeholder="請詳細說明拒絕該刪除請求的原因，這將會顯示給申請者查看。"></textarea>
+                        <div class="form-text text-muted">
+                            提供明確的拒絕理由有助於申請者理解決定。
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>取消
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="submitReject()">
+                        <i class="fas fa-check me-1"></i>確認拒絕
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 顯示/隱藏詳細資訊
+        $(document).on('click', '.show-details', function(e) {
+            e.preventDefault();
+            const requestId = $(this).data('request-id');
+            const detailRow = $(`#details-${requestId}`);
+            const icon = $(this).find('i');
+            
+            detailRow.toggle();
+            
+            if (detailRow.is(':visible')) {
+                icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+            } else {
+                icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+            }
+        });
+
+        // 狀態篩選
+        $('#statusFilter').on('change', function() {
+            const status = $(this).val();
+            if (status) {
+                $('.request-row').hide();
+                $('.request-row[data-status="' + status + '"]').show();
+            } else {
+                $('.request-row').show();
+            }
+        });
+
+        // 刷新按鈕
+        $('.refresh-btn').on('click', function() {
+            location.reload();
+        });
+
+        // 顯示拒絕 Modal
+        function showRejectModal(requestId) {
+            $('#reject_request_id').val(requestId);
+            $('#reject_reason').val('');
+            new bootstrap.Modal($('#rejectModal')).show();
+        }
+
+        // 更新請求狀態
+        function updateStatus(requestId, status, rejectReason = '') {
+            const loadingBtn = $(`button[onclick="updateStatus('${requestId}', '${status}')"]`);
+            const originalContent = loadingBtn.html();
+            
+            loadingBtn.prop('disabled', true)
+                     .html('<i class="fas fa-spinner fa-spin"></i> 處理中...');
+
+            $.ajax({
+                url: '/api/admin/update-delete-request',
+                method: 'POST',
+                data: {
+                    request_id: requestId,
+                    status: status,
+                    reject_reason: rejectReason
+                },
+                success: function(response) {
+                    if(response.success) {
+                        showToast('success', '更新成功', '請求狀態已成功更新');
+                        setTimeout(() => location.reload(), 1000);
+                    }
+                },
+                error: function(xhr) {
+                    showToast('error', '更新失敗', xhr.responseJSON?.error || '未知錯誤');
+                    loadingBtn.prop('disabled', false).html(originalContent);
+                }
+            });
+        }
+
+        // 提交拒絕請求
+        function submitReject() {
+            const requestId = $('#reject_request_id').val();
+            const rejectReason = $('#reject_reason').val().trim();
+            
+            if (!rejectReason) {
+                showToast('error', '錯誤', '請輸入拒絕原因');
+                return;
+            }
+            
+            $('#rejectModal').modal('hide');
+            updateStatus(requestId, 'rejected', rejectReason);
+        }
+
+        // 顯示通知訊息
+        function showToast(type, title, message) {
+            const toastHtml = `
+                <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1056">
+                    <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : 'danger'}" role="alert">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                <strong>${title}</strong><br>
+                                ${message}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                        </div>
+                    </div>
+                </div>`;
+            
+            $(toastHtml).appendTo('body').find('.toast').toast('show');
+        }
+
+        // 文件載入完成後自動聚焦等待處理的請求
+        $(document).ready(function() {
+            const pendingCount = $('.request-row[data-status="pending"]').length;
+            if (pendingCount > 0) {
+                $('#statusFilter').val('pending').trigger('change');
+            }
+        });
+    </script>
+</body>
+</html>

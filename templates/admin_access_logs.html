@@ -1,0 +1,50 @@
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>匿名仁愛｜訪問紀錄</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="max-w-6xl mx-auto p-8">
+    <a href="/adm/dashboard" class="inline-block mb-4 text-sm text-gray-600 hover:underline">← 回儀表板</a>
+    <h1 class="text-2xl font-extrabold mb-4">訪問紀錄</h1>
+
+    <form method="GET" class="mb-4 flex gap-3">
+      <input name="ip" value="{{ ipq }}" placeholder="過濾 IP（包含）" class="p-2 border rounded flex-1" />
+      <input name="path" value="{{ pathq }}" placeholder="過濾 path（包含）" class="p-2 border rounded flex-1" />
+      <input name="limit" value="200" placeholder="筆數上限" class="p-2 w-28 border rounded" />
+      <button class="px-4 py-2 bg-[#5c5edc] text-white rounded">查詢</button>
+    </form>
+
+    <div class="bg-white p-4 rounded shadow overflow-x-auto">
+      <table class="w-full text-sm table-auto">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="p-2 text-left">時間 (UTC)</th>
+            <th class="p-2 text-left">IP</th>
+            <th class="p-2 text-left">方法</th>
+            <th class="p-2 text-left">路徑</th>
+            <th class="p-2 text-left">Query</th>
+            <th class="p-2 text-left">User-Agent</th>
+            <th class="p-2 text-left">狀態</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for e in logs %}
+          <tr class="border-t">
+            <td class="p-2 align-top">{{ e.timestamp }}</td>
+            <td class="p-2 align-top">{{ e.ip }}</td>
+            <td class="p-2 align-top">{{ e.method }}</td>
+            <td class="p-2 align-top">{{ e.path }}</td>
+            <td class="p-2 align-top"><pre class="whitespace-pre-wrap">{{ e.query }}</pre></td>
+            <td class="p-2 align-top"><pre class="whitespace-pre-wrap">{{ e.user_agent }}</pre></td>
+            <td class="p-2 align-top">{{ e.status }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

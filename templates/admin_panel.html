@@ -1,0 +1,758 @@
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>匿名仁愛｜儀表板</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <style>
+    body {
+      font-family: "Noto Sans TC", sans-serif;
+      background-color: #f7f8fc;
+      color: #222222;
+      margin: 0;
+      padding: 0;
+    }
+    .highlight-post {
+      animation: highlight 2s ease-in-out;
+      background-color: #fef3c7 !important;
+    }
+    @keyframes highlight {
+      0%, 100% { background-color: transparent; }
+      50% { background-color: #fef3c7; }
+    }
+  </style>
+</head>
+<body>
+  <div class="flex min-h-screen">
+    <aside id="sidebar"
+      class="fixed inset-y-0 left-0 z-30 w-72 transform -translate-x-full md:translate-x-0 md:static md:inset-auto md:transform-none bg-white border-r border-gray-200 transition-transform duration-200 ease-in-out"
+      aria-label="Sidebar Navigation"
+    >
+      <a href="/" class="flex items-center gap-2 px-4 py-3 bg-[#e6e4fa] text-[#5c5edc] font-semibold text-sm select-none">
+        <i class="fas fa-arrow-left"></i>
+        <span>返回首頁</span>
+      </a>
+      <div class="flex flex-col items-center py-8 border-b border-gray-200">
+        <img
+          alt="DHS logo with purple and orange gradient background and white letter D"
+          class="w-20 h-20 rounded-full"
+          height="80"
+          src="/static/logo.webp"
+          width="80"
+        />
+        <h1 class="mt-4 text-3xl font-extrabold text-[#5c5edc]">匿名仁愛</h1>
+      </div>
+      <div class="flex items-center gap-3 px-4 py-4 border-b border-gray-200 relative">
+        <img
+          alt="User avatar with flowers and brown tones"
+          class="w-10 h-10 rounded-full"
+          height="40"
+          src="/static/logo.webp"
+          width="40"
+        />
+        <div class="flex flex-col text-sm flex-">
+          <span class="font-bold text-[#222222]">{{username1}}</span>
+          <span class="text-gray-400">管理員</span>
+        </div>
+        <button id="user-menu-button" aria-haspopup="true" aria-expanded="false" class="text-gray-400 hover:text-gray-600 focus:outline-none">
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div id="user-menu" class="hidden absolute left-0 top-full mt-1 w-48 bg-white border border-gray-200 rounded shadow-md z-10">
+          <form action="/adm/psdchange" method="POST" class="p-4 space-y-4">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <h3 class="text-gray-700 font-semibold mb-2">修改密碼</h3>
+            <input type="hidden" name="username" value="{{username1}}" />
+            <div>
+              <label for="password" class="block text-sm font-medium text-gray-700 mb-1">新密碼</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#5c5edc]"
+                placeholder="請輸入新密碼"
+              />
+            </div>
+            <div class="flex justify-end space-x-2">
+              <button type="button" id="cancel-password" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400 text-gray-700">取消</button>
+              <button type="submit" class="px-3 py-1 rounded bg-[#5c5edc] hover:bg-[#4a4ecb] text-white font-semibold">送出</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <nav
+        class="flex flex-col flex-1 overflow-y-auto px-4 py-6 space-y-6 text-sm text-gray-600"
+        role="menu"
+      >
+        <div>
+          <p class="mb-2 text-xs font-semibold text-gray-400 select-none">儀表板</p>
+          <button
+            id="btn-dashboard"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#5c5edc] text-white font-semibold shadow-md w-full text-left focus:outline-none focus:ring-2 focus:ring-[#5c5edc]"
+            role="menuitem"
+            aria-controls="content-dashboard"
+            aria-expanded="true"
+            type="button"
+          >
+            <i class="fas fa-tachometer-alt"></i>
+            <span>儀表板</span>
+          </button>
+        </div>
+        <!-- 重新整理後台側邊欄：將項目分組為 文章管理 與 系統設定，並移除 小編帳號管理 -->
+        <div>
+          <p class="mb-2 text-xs font-semibold text-gray-400 select-none">文章管理</p>
+          <!-- 投稿管理 -->
+          <button
+            id="btn-posts"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 w-full text-left focus:outline-none focus:ring-2 focus:ring-[#5c5edc]"
+            role="menuitem"
+            aria-controls="content-posts"
+            aria-expanded="false"
+            type="button"
+          >
+            <i class="fas fa-file-alt"></i>
+            <span>投稿管理</span>
+          </button>
+          <!-- 刪除請求管理 -->
+          <a
+            href="/admin/delete-requests"
+            class="flex items-center gap-3 px-4 py-3 mt-2 rounded-lg hover:bg-gray-100 w-full text-left focus:outline-none focus:ring-2 focus:ring-[#5c5edc]"
+            role="menuitem"
+          >
+            <i class="fas fa-trash-alt"></i>
+            <span>刪除請求管理</span>
+          </a>
+        </div>
+
+        <div>
+          <p class="mb-2 text-xs font-semibold text-gray-400 select-none">系統設定</p>
+          <!-- 公告管理 -->
+          <button
+            id="btn-announcements"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 w-full text-left focus:outline-none focus:ring-2 focus:ring-[#5c5edc]"
+            role="menuitem"
+            aria-controls="content-announcements"
+            aria-expanded="false"
+            type="button"
+          >
+            <i class="fas fa-bullhorn"></i>
+            <span>公告管理</span>
+          </button>
+          <!-- 訪問紀錄 -->
+          <a
+            href="/adm/access-logs"
+            class="flex items-center gap-3 px-4 py-3 mt-2 rounded-lg hover:bg-gray-100 w-full text-left focus:outline-none focus:ring-2 focus:ring-[#5c5edc]"
+            role="menuitem"
+          >
+            <i class="fas fa-list"></i>
+            <span>訪問紀錄</span>
+          </a>
+          <!-- IP 封鎖管理 -->
+          <a
+            href="/adm/ip-blacklist"
+            class="flex items-center gap-3 px-4 py-3 mt-2 rounded-lg hover:bg-gray-100 w-full text-left focus:outline-none focus:ring-2 focus:ring-[#5c5edc]"
+            role="menuitem"
+          >
+            <i class="fas fa-ban"></i>
+            <span>IP 封鎖管理</span>
+          </a>
+        </div>
+      </nav>
+    </aside>
+
+  <!-- Overlay for mobile sidebar -->
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 z-20 hidden md:hidden"></div>
+
+  <main class="flex-1 flex flex-col">
+      <header
+        class="flex items-center justify-between px-8 py-4 border-b border-gray-200 bg-white text-sm font-semibold text-[#222222]"
+      >
+        <!-- Hamburger for mobile to toggle sidebar -->
+        <div class="flex items-center">
+          <button id="sidebar-toggle" class="md:hidden p-2 rounded bg-transparent text-gray-600 hover:bg-gray-100 focus:outline-none mr-2" aria-label="開啟側邊欄">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div id="page-title">儀表板</div>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="/" aria-label="首頁" class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-globe-americas text-lg"></i>
+          </a>
+          <div class="flex items-center gap-2 cursor-pointer select-none relative" id="user-menu-top-wrapper">
+            <img
+              alt="User avatar with flowers and brown tones"
+              class="w-8 h-8 rounded-full"
+              height="32"
+              src="/static/logo.webp"
+              width="32"
+            />
+            <div class="flex flex-col text-xs leading-tight">
+              <span class="font-bold text-[#222222]">{{username1}}</span>
+              <span class="text-gray-400">管理員</span>
+            </div>
+            <button id="user-menu-top-button" aria-haspopup="true" aria-expanded="false" class="text-gray-400 hover:text-gray-600 focus:outline-none">
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="user-menu-top" class="hidden absolute right-0 mt-10 w-48 bg-white border border-gray-200 rounded shadow-md z-20">
+              <form action="/adm/psdchange" method="POST" class="p-4 space-y-4">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <h3 class="text-gray-700 font-semibold mb-2">修改密碼</h3>
+                <input type="hidden" name="username" value="{{username1}}" />
+                <div>
+                  <label for="password-top" class="block text-sm font-medium text-gray-700 mb-1">新密碼</label>
+                  <input
+                    type="password"
+                    id="password-top"
+                    name="password"
+                    required
+                    class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#5c5edc]"
+                    placeholder="請輸入新密碼"
+                  />
+                </div>
+                <div class="flex justify-end space-x-2">
+                  <button type="button" id="cancel-password-top" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400 text-gray-700">取消</button>
+                  <button type="submit" class="px-3 py-1 rounded bg-[#5c5edc] hover:bg-[#4a4ecb] text-white font-semibold">送出</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="flex-1 overflow-y-auto p-8 space-y-8">
+        <div id="content-dashboard" class="max-w-5xl">
+          <h2 class="flex items-center gap-3 text-2xl font-extrabold text-[#222222] mb-6">
+            <span
+              aria-hidden="true"
+              class="flex items-center justify-center w-8 h-8 rounded-full bg-[#7c75e6] text-white text-lg"
+              ><i class="fas fa-tachometer-alt"></i
+            ></span>
+            儀表板
+          </h2>
+          <p class="text-gray-600 text-sm mb-6">
+            這裡提供了系統主要功能與投稿管理的快速訪問。
+          </p>
+          <div
+            class="relative rounded-xl overflow-hidden bg-[#5c5edc] bg-opacity-90 p-8 text-white max-w-full mb-6"
+          >
+            <img
+              alt="桌面上有筆記本、手機和手寫筆記的背景圖,帶有紫色半透明覆蓋"
+              aria-hidden="true"
+              class="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none rounded-xl"
+              height="200"
+              src="https://storage.googleapis.com/a1aa/image/71f0059a-df63-4847-758c-0b04ad964317.jpg"
+              width="1200"
+            />
+            <div class="relative max-w-3xl">
+              <h3 class="text-2xl font-extrabold mb-2">歡迎使用管理員儀表板</h3>
+              <p class="mb-4 text-base leading-relaxed">
+                這裡提供了系統主要功能與投稿管理的快速訪問。
+              </p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- 小編帳號管理卡片已移除 -->
+            <article
+              class="bg-white rounded-xl shadow-md p-6 flex flex-col justify-between"
+              style="min-height: 220px"
+            >
+              <div class="flex items-center gap-4 mb-4">
+                <div
+                  aria-hidden="true"
+                  class="flex items-center justify-center w-14 h-14 rounded-lg bg-[#d97706] text-white text-2xl"
+                >
+                  <i class="fas fa-file-alt"></i>
+                </div>
+                <div>
+                  <h3 class="font-extrabold text-base text-[#222222] mb-1">
+                    投稿管理
+                  </h3>
+                  <p class="text-xs text-gray-500">審核與管理用戶投稿內容</p>
+                </div>
+              </div>
+              <p class="text-sm text-[#222222] leading-relaxed">
+                您可以查看、編輯、審核投稿,並更新投稿狀態。
+              </p>
+            </article>
+            <article
+              class="bg-white rounded-xl shadow-md p-6 flex flex-col justify-between hover:shadow-lg transition-shadow cursor-pointer"
+              style="min-height: 220px"
+              onclick="window.location.href='/admin/delete-requests'"
+            >
+              <div class="flex items-center gap-4 mb-4">
+                <div
+                  aria-hidden="true"
+                  class="flex items-center justify-center w-14 h-14 rounded-lg bg-[#dc2626] text-white text-2xl"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </div>
+                <div>
+                  <h3 class="font-extrabold text-base text-[#222222] mb-1">
+                    刪除請求管理
+                  </h3>
+                  <p class="text-xs text-gray-500">處理用戶刪除請求</p>
+                </div>
+              </div>
+              <p class="text-sm text-[#222222] leading-relaxed">
+                審核與處理用戶提交的投稿刪除請求。
+              </p>
+            </article>
+            <article
+              class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center justify-center"
+              style="min-height: 220px"
+            >
+              <h3 class="font-extrabold text-base text-[#222222] mb-4">
+                登入 QRCode
+              </h3>
+              <div id="qrcode-container"></div>
+            </article>
+          </div>
+        </div>
+        <div id="content-posts" class="max-w-5xl hidden">
+          <div
+            class="container bg-white p-8 rounded-xl shadow-lg max-w-full overflow-x-auto"
+          >
+            <div class="flex justify-between items-center mb-8">
+              <h1 class="text-3xl font-extrabold text-center text-[#333] flex-1">
+                管理員面板
+              </h1>
+              <button
+                id="scroll-to-bottom-btn"
+                onclick="window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });"
+                class="bg-[#5c5edc] text-white px-4 py-2 rounded-lg hover:bg-[#4a4ecb] transition flex items-center gap-2 font-semibold"
+                aria-label="跳到底部"
+              >
+                <span>跳到底部</span>
+                <i class="fas fa-arrow-down"></i>
+              </button>
+            </div>
+            <table class="w-full border-collapse mb-8">
+              <thead>
+                <tr class="bg-[#D8B0B0] text-white">
+                  <th class="border border-gray-300 p-3 text-left">ID</th>
+                  <th class="border border-gray-300 p-3 text-left">IG</th>
+                  <th class="border border-gray-300 p-3 text-left">內容</th>
+                  <th class="border border-gray-300 p-3 text-left">狀態</th>
+                  <th class="border border-gray-300 p-3 text-left">操作</th>
+                </tr>
+              </thead>
+              <tbody id="posts-table-body">
+                {% for submission in submissions %}
+                <tr id="post-{{ submission.id }}" data-post-id="{{ submission.id }}" class="post-row">
+                  <td class="border border-gray-300 p-3">{{ submission.id }}</td>
+                  <td class="border border-gray-300 p-3">{{ submission.ig }}</td>
+                  <td class="border border-gray-300 p-3">{{ submission.content }}</td>
+                  <td class="border border-gray-300 p-3">{{ submission.status }}</td>
+                  <td class="border border-gray-300 p-3">
+                    <a href="{{ url_for('edit_content', sid=submission.id) }}">
+                      <button
+                        type="button"
+                        class="bg-[#ff6f61] text-white px-3 py-1 rounded hover:bg-[#ff4b3e] transition"
+                        aria-label="編輯投稿 {{ submission.id }}"
+                      >
+                        ✏️
+                      </button>
+                    </a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <form action="/adm/dashboard" method="POST" class="flex flex-col max-w-md mx-auto">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+              <label for="submission_id" class="mb-2 font-semibold text-[#333]"
+                >投稿 ID</label
+              >
+              <input
+                type="text"
+                id="submission_id"
+                name="submission_id"
+                placeholder="輸入投稿 ID"
+                class="mb-4 p-3 border-2 border-gray-400 rounded focus:outline-none focus:border-[#ff6f61]"
+              />
+              <label for="status" class="mb-2 font-semibold text-[#333]"
+                >更新狀態</label
+              >
+              <select
+                id="status"
+                name="status"
+                class="mb-6 p-3 border-2 border-gray-400 rounded focus:outline-none focus:border-[#ff6f61]"
+              >
+                <option value="approved">通過</option>
+                <option value="rejected">不通過</option>
+              </select>
+              <button
+                type="submit"
+                class="bg-[#ff6f61] text-white py-3 rounded hover:bg-[#ff4b3e] transition"
+              >
+                更新狀態
+              </button>
+            </form>
+          </div>
+          <footer class="bg-[#D8B0B0] text-white text-center p-5 mt-8 rounded-b-xl">
+            <p class="text-sm">
+              &copy; 2025 新竹縣仁愛國中匿名板｜
+              <a href="/privacy-policy" class="underline hover:text-[#ff4b3e]"
+                >隱私政策</a
+              >｜
+              <a href="/support" class="underline hover:text-[#ff4b3e]">聯絡我們</a>
+            </p>
+          </footer>
+        </div>
+
+        <div id="content-announcements" class="max-w-xl hidden">
+          <h2 class="text-2xl font-extrabold text-[#222222] mb-6">公告管理</h2>
+          <form
+            action="/admin/api/annedit"
+            method="POST"
+            class="bg-white rounded-xl shadow-md p-6 space-y-6"
+          >
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div>
+              <label for="title" class="block mb-2 font-semibold text-gray-700">公告標題</label>
+              <input
+                id="title"
+                name="title"
+                type="text"
+                placeholder="輸入公告標題"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5c5edc]"
+              />
+            </div>
+            <div>
+              <label for="content" class="block mb-2 font-semibold text-gray-700">公告內文</label>
+              <textarea
+                id="content"
+                name="content"
+                rows="6"
+                placeholder="輸入公告內容"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5c5edc]"
+              ></textarea>
+            </div>
+            <div class="text-right">
+              <button
+                type="submit"
+                class="bg-[#5c5edc] text-white px-5 py-2 rounded hover:bg-[#4a4ecb] transition font-semibold"
+              >
+                發布公告
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 小編帳號管理表單已移除 -->
+        
+        <!-- IP 管理已移至獨立頁面 /adm/ip-blacklist -->
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const btnDashboard = document.getElementById("btn-dashboard");
+    const btnPosts = document.getElementById("btn-posts");
+    const btnAnnouncements = document.getElementById("btn-announcements");
+    
+    const contentDashboard = document.getElementById("content-dashboard");
+    const contentPosts = document.getElementById("content-posts");
+    const contentAnnouncements = document.getElementById("content-announcements");
+    
+    const pageTitle = document.getElementById("page-title");
+
+    function showDashboard() {
+      contentDashboard.classList.remove("hidden");
+      contentPosts.classList.add("hidden");
+      contentAnnouncements.classList.add("hidden");
+
+      btnDashboard.classList.add(
+        "bg-[#5c5edc]", "text-white", "font-semibold", "shadow-md"
+      );
+      [btnPosts, btnAnnouncements].forEach(btn => {
+        btn.classList.remove("bg-[#5c5edc]", "text-white", "font-semibold", "shadow-md");
+        btn.classList.add("hover:bg-gray-100");
+      });
+
+      btnDashboard.setAttribute("aria-expanded", "true");
+      btnPosts.setAttribute("aria-expanded", "false");
+      btnAnnouncements.setAttribute("aria-expanded", "false");
+      pageTitle.textContent = "儀表板";
+    }
+
+    function showPosts() {
+      contentPosts.classList.remove("hidden");
+      contentDashboard.classList.add("hidden");
+      contentAnnouncements.classList.add("hidden");
+
+      btnPosts.classList.add(
+        "bg-[#5c5edc]", "text-white", "font-semibold", "shadow-md"
+      );
+      [btnDashboard, btnAnnouncements].forEach(btn => {
+        btn.classList.remove("bg-[#5c5edc]", "text-white", "font-semibold", "shadow-md");
+        btn.classList.add("hover:bg-gray-100");
+      });
+
+      btnPosts.setAttribute("aria-expanded", "true");
+      btnDashboard.setAttribute("aria-expanded", "false");
+      btnAnnouncements.setAttribute("aria-expanded", "false");
+      pageTitle.textContent = "投稿管理";
+    }
+
+    function showAnnouncements() {
+      contentAnnouncements.classList.remove("hidden");
+      contentDashboard.classList.add("hidden");
+      contentPosts.classList.add("hidden");
+
+      btnAnnouncements.classList.add(
+        "bg-[#5c5edc]", "text-white", "font-semibold", "shadow-md"
+      );
+      [btnDashboard, btnPosts].forEach(btn => {
+        btn.classList.remove("bg-[#5c5edc]", "text-white", "font-semibold", "shadow-md");
+        btn.classList.add("hover:bg-gray-100");
+      });
+
+      btnAnnouncements.setAttribute("aria-expanded", "true");
+      btnDashboard.setAttribute("aria-expanded", "false");
+      btnPosts.setAttribute("aria-expanded", "false");
+      pageTitle.textContent = "公告管理";
+    }
+
+    /* IP 管理已移至獨立頁面 /adm/ip-blacklist，相關內嵌函式已移除 */
+
+    // Hash navigation function
+    function handleHashNavigation() {
+      const hash = window.location.hash;
+      
+      if (hash.startsWith('#viewpost')) {
+        const postId = hash.replace('#viewpost', '');
+        
+        // Switch to posts view first
+        showPosts();
+        
+        // Wait longer for the view to fully render
+        setTimeout(() => {
+          const postElement = document.querySelector(`tr[data-post-id="${postId}"]`);
+          
+          if (postElement) {
+            // Scroll to the element
+            postElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Add highlight effect
+            postElement.classList.add('highlight-post');
+            
+            // Remove highlight after animation
+            setTimeout(() => {
+              postElement.classList.remove('highlight-post');
+            }, 2000);
+          } else {
+            console.log('找不到投稿 ID:', postId);
+          }
+        }, 300);
+      } else if (hash === '#posts') {
+        showPosts();
+      } else if (hash === '#announcements') {
+        showAnnouncements();
+      } else if (hash === '#dashboard' || hash === '') {
+        showDashboard();
+      }
+    }
+
+    btnDashboard.addEventListener("click", () => {
+      window.location.hash = '#dashboard';
+      showDashboard();
+    });
+    
+    btnPosts.addEventListener("click", () => {
+      window.location.hash = '#posts';
+      showPosts();
+    });
+    
+    btnAnnouncements.addEventListener("click", () => {
+      window.location.hash = '#announcements';
+      showAnnouncements();
+    });
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashNavigation);
+
+    // Initialize based on URL hash
+    handleHashNavigation();
+
+    // IP 格式驗證與移除確認
+    function isValidIPv4(ip) {
+      const parts = ip.split('.');
+      if (parts.length !== 4) return false;
+      for (let p of parts) {
+        if (!/^[0-9]+$/.test(p)) return false;
+        const n = Number(p);
+        if (n < 0 || n > 255) return false;
+      }
+      return true;
+    }
+
+    function isValidIPv6(ip) {
+      // 簡單檢查包含 ':' 的 IPv6 格式
+      return ip.includes(':');
+    }
+
+    const addIpForm = document.getElementById('add-ip-form');
+    if (addIpForm) {
+      addIpForm.addEventListener('submit', function(e) {
+        const ipInput = document.getElementById('ip-input');
+        const ip = ipInput.value.trim();
+        if (!ip) {
+          alert('請輸入 IP');
+          e.preventDefault();
+          return;
+        }
+        if (!(isValidIPv4(ip) || isValidIPv6(ip))) {
+          alert('輸入的 IP 格式看起來不正確，請輸入合法的 IPv4 或 IPv6 格式');
+          e.preventDefault();
+          return;
+        }
+      });
+    }
+
+    // 移除時顯示確認對話
+    document.querySelectorAll('.remove-ip-form').forEach(form => {
+      form.addEventListener('submit', function(e) {
+        const ip = this.querySelector('input[name="ip"]').value || '';
+        if (!confirm(`確定要移除封鎖 IP：${ip} ？`)) {
+          e.preventDefault();
+        }
+      });
+    });
+
+    // User menu toggle (sidebar)
+    const userMenuButton = document.getElementById("user-menu-button");
+    const userMenu = document.getElementById("user-menu");
+    const cancelPasswordBtn = document.getElementById("cancel-password");
+
+    userMenuButton.addEventListener("click", () => {
+      const expanded = userMenuButton.getAttribute("aria-expanded") === "true";
+      if (expanded) {
+        userMenu.classList.add("hidden");
+        userMenuButton.setAttribute("aria-expanded", "false");
+      } else {
+        userMenu.classList.remove("hidden");
+        userMenuButton.setAttribute("aria-expanded", "true");
+      }
+    });
+
+    cancelPasswordBtn.addEventListener("click", () => {
+      userMenu.classList.add("hidden");
+      userMenuButton.setAttribute("aria-expanded", "false");
+      userMenu.querySelector("form").reset();
+    });
+
+    // User menu toggle (topbar)
+    const userMenuTopButton = document.getElementById("user-menu-top-button");
+    const userMenuTop = document.getElementById("user-menu-top");
+    const cancelPasswordTopBtn = document.getElementById("cancel-password-top");
+
+    userMenuTopButton.addEventListener("click", () => {
+      const expanded = userMenuTopButton.getAttribute("aria-expanded") === "true";
+      if (expanded) {
+        userMenuTop.classList.add("hidden");
+        userMenuTopButton.setAttribute("aria-expanded", "false");
+      } else {
+        userMenuTop.classList.remove("hidden");
+        userMenuTopButton.setAttribute("aria-expanded", "true");
+      }
+    });
+
+    cancelPasswordTopBtn.addEventListener("click", () => {
+      userMenuTop.classList.add("hidden");
+      userMenuTopButton.setAttribute("aria-expanded", "false");
+      userMenuTop.querySelector("form").reset();
+    });
+
+    // Close menus on outside click
+    document.addEventListener("click", (e) => {
+      if (
+        !userMenu.contains(e.target) &&
+        !userMenuButton.contains(e.target)
+      ) {
+        userMenu.classList.add("hidden");
+        userMenuButton.setAttribute("aria-expanded", "false");
+      }
+      if (
+        !userMenuTop.contains(e.target) &&
+        !userMenuTopButton.contains(e.target)
+      ) {
+        userMenuTop.classList.add("hidden");
+        userMenuTopButton.setAttribute("aria-expanded", "false");
+      }
+    });
+    
+    // Sidebar toggle for small screens: open/close and overlay handling
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    function openSidebar() {
+      if (sidebar) {
+        sidebar.classList.remove('-translate-x-full');
+      }
+      if (overlay) {
+        overlay.classList.remove('hidden');
+      }
+      // prevent body scroll when sidebar open on small screens
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeSidebar() {
+      if (sidebar) {
+        sidebar.classList.add('-translate-x-full');
+      }
+      if (overlay) {
+        overlay.classList.add('hidden');
+      }
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    if (sidebarToggle) {
+      sidebarToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (sidebar && sidebar.classList.contains('-translate-x-full')) {
+          openSidebar();
+        } else {
+          closeSidebar();
+        }
+      });
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', () => {
+        closeSidebar();
+      });
+    }
+
+    // Generate QR Code
+    const qrCodeContainer = document.getElementById("qrcode-container");
+    const qrCodeUrl = "http://jajhcb.1001201.xyz/api/v9/admin/login/token/eJ3P9PNVRRaynNLt4xF5oeuE6XDpGJzUREg29c2HhJcGPw6y4R0zE7fmRwUNNYBcfps7kagPRcGazBN5UW7ke53MKGV5P3zYQoZg/tofu1201";
+    new QRCode(qrCodeContainer, {
+        text: qrCodeUrl,
+        width: 150,
+        height: 150,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+      
+    const form = document.getElementById('update-status-form'); 
+    if (form) { 
+      form.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+    }
+
+  </script>
+</body>
+</html>

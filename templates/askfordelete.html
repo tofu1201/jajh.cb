@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>匿名仁愛｜要求刪文</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #DECECE;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #DBE2EC;
+            padding: 20px 30px;
+            color: #333;
+        }
+        .header .logo {
+            height: 40px;
+            margin-right: 20px;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 1.6rem;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            max-width: 700px;
+            margin: 50px auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .request-query-box {
+            text-align: center;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .request-query-box p {
+            color: #fff;
+            margin: 0 0 10px 0;
+        }
+        .request-query-box a {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .request-query-box a:hover {
+            background-color: #5a6268;
+        }
+        label {
+            display: block;
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 8px;
+            margin-top: 15px;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #444;
+            border-radius: 8px;
+            background-color: #222;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+            font-family: inherit; /* 確保字體一致 */
+        }
+        input:focus,
+        textarea:focus {
+            border-color: #ff6f61;
+            outline: none;
+        }
+        button {
+            padding: 12px 20px;
+            background-color: #ff6f61;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #ff4b3e;
+        }
+        footer {
+            background-color: #D8B0B0;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+        footer a {
+            color: #ff6f61;  
+            text-decoration: none;
+            font-weight: bold;
+        }
+        footer a:hover {
+            color: #ff4b3e;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img class="logo" src="/static/logo.webp" alt="Logo">
+        <h2>刪除文章申請</h2>
+    </div>
+
+    <div class="container">
+            <h2>要求刪除文章</h2>
+            
+            {% if status_message %}
+            <div class="alert" style="
+                background-color: rgba(40, 167, 69, 0.9);
+                color: white;
+                padding: 15px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                text-align: center;
+                font-size: 1.1em;
+            ">
+                {{ status_message }}
+            </div>
+            {% endif %}
+            
+            <div class="request-query-box">
+                <p>已經送出刪除請求了？</p>
+                <a href="{{ url_for('view_delete_requests') }}">查詢請求狀態</a>
+            </div>
+            
+            <form id="deleteForm" method="POST" action="/api/request-delete" class="form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            
+            <div>
+                <label for="email">您的電子郵件 (Email):</label>
+                <input type="email" id="email" name="email" placeholder="我們可能會透過此信箱與您聯繫(選填)">
+            </div>
+
+            <div>
+                <label for="instagram">您的哀居帳號 (Instagram):</label>
+                <input type="text" id="instagram" name="instagram" placeholder="用於身份核對＆聯繫" required>
+            </div>
+            
+            <div>
+                <label for="article_content">欲刪除之文章內容:</label>
+                <textarea id="article_content" name="article_content" rows="8" placeholder="請在此貼上您希望刪除的完整文章內容" required></textarea>
+            </div>
+
+            <div>
+                <label for="delete_reason">刪除原因:</label>
+                <textarea id="delete_reason" name="delete_reason" rows="4" placeholder="請簡述您希望刪除文章的原因" required></textarea>
+            </div>
+            
+            <button type="submit">提交刪除申請</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 新竹縣仁愛國中匿名板｜<a href="/guidelines">投稿須知</a>｜<a href="/support">聯絡我們</a></p>
+        <p>Designed by <a href="https://tfstudio.1001201.xyz/">TFStudio</a> </p>
+    </footer>
+    <script>alert("新增\n- 刪除請求狀態查詢系統")</script>
+</body>
+</html>

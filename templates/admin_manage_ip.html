@@ -1,0 +1,109 @@
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>匿名仁愛｜IP 封鎖管理</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="max-w-4xl mx-auto p-8">
+    <a href="/adm/dashboard" class="inline-block mb-4 text-sm text-gray-600 hover:underline">← 回儀表板</a>
+    <h1 class="text-2xl font-extrabold mb-4">IP 封鎖管理</h1>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="mb-4">
+      {% for m in messages %}
+        <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-2">{{ m }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <section class="bg-white p-6 rounded-lg shadow mb-6">
+      <h2 class="font-semibold mb-2">新增封鎖 IP</h2>
+      <form action="/adm/ip-blacklist/add" method="POST" class="flex gap-3">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <input type="text" name="ip" placeholder="輸入 IP（例如 203.0.113.1）" class="flex-1 p-3 border rounded" />
+        <button class="px-4 py-2 bg-red-600 text-white rounded">加入黑名單</button>
+      </form>
+    </section>
+
+    <section class="bg-white p-6 rounded-lg shadow">
+      <h2 class="font-semibold mb-4">目前黑名單</h2>
+      {% if blacklist and blacklist|length > 0 %}
+      <table class="w-full border-collapse">
+        <thead>
+          <tr class="bg-gray-50 text-left">
+            <th class="p-3 border">IP 地址</th>
+            <th class="p-3 border">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ip in blacklist %}
+          <tr>
+            <td class="p-3 border">{{ ip }}</td>
+            <td class="p-3 border">
+              <form action="/adm/ip-blacklist/remove" method="POST" style="display:inline">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="ip" value="{{ ip }}" />
+                <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">移除</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+        <p class="text-gray-500">目前沒有封鎖的 IP。</p>
+      {% endif %}
+    </section>
+  </div>
+  <script>
+    // 基本 IPv4 驗證
+    function isValidIPv4(ip) {
+      const parts = ip.split('.');
+      if (parts.length !== 4) return false;
+      for (let p of parts) {
+        if (!/^[0-9]+$/.test(p)) return false;
+        const n = Number(p);
+        if (n < 0 || n > 255) return false;
+      }
+      return true;
+    }
+
+    // 簡單 IPv6 判斷（含 ':'）
+    function isValidIPv6(ip) {
+      return ip.includes(':');
+    }
+
+    const form = document.querySelector('form[action="/adm/ip-blacklist/add"]');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        const input = this.querySelector('input[name="ip"]');
+        const val = input.value.trim();
+        if (!val) {
+          alert('請輸入 IP');
+          e.preventDefault();
+          return;
+        }
+        if (!(isValidIPv4(val) || isValidIPv6(val))) {
+          alert('輸入的 IP 格式看起來不正確，請輸入合法的 IPv4 或 IPv6 格式');
+          e.preventDefault();
+          return;
+        }
+      });
+    }
+
+    // 移除確認
+    document.querySelectorAll('form[action="/adm/ip-blacklist/remove"]').forEach(f => {
+      f.addEventListener('submit', function(e) {
+        const ip = this.querySelector('input[name="ip"]').value || '';
+        if (!confirm(`確定要移除封鎖 IP：${ip}？`)) {
+          e.preventDefault();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
